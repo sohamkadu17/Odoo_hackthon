@@ -4,6 +4,7 @@ import {
   Map,
   Calendar,
   TrendingUp,
+  Sun,
   Users,
   Plus,
   CheckCircle2,
@@ -24,8 +25,6 @@ const statCards = [
   { label: 'Crew Members', value: '11', icon: Users, color: 'text-teal-600', bg: 'bg-teal-50', trend: 'Across all trips' },
 ]
 
-type BadgeTone = 'amber' | 'blue' | 'cyan' | 'green'
-
 type Trip = {
   id: string
   name: string
@@ -35,39 +34,6 @@ type Trip = {
   coverPhoto?: string
   TripStops?: any[]
 }
-
-const upcomingTrips = [
-  {
-    name: 'Lisbon Loop',
-    dates: 'Jun 12 – Jun 18',
-    status: 'Draft',
-    tone: 'amber' as BadgeTone,
-    cities: 'Lisbon, Sintra, Cascais',
-    travelers: '4',
-    daysLeft: 33,
-    image: 'https://picsum.photos/seed/15487/800/600',
-  },
-  {
-    name: 'Nordic Studio',
-    dates: 'Jul 02 – Jul 11',
-    status: 'Booked',
-    tone: 'blue' as BadgeTone,
-    cities: 'Copenhagen, Oslo',
-    travelers: '2',
-    daysLeft: 53,
-    image: 'https://picsum.photos/seed/15136/800/600',
-  },
-  {
-    name: 'Desert Weekender',
-    dates: 'Aug 23 – Aug 25',
-    status: 'Shared',
-    tone: 'cyan' as BadgeTone,
-    cities: 'Phoenix, Sedona',
-    travelers: '5',
-    daysLeft: 105,
-    image: 'https://picsum.photos/seed/14698/800/600',
-  },
-]
 
 const focusTasks = [
   { text: 'Confirm boutique stay in Alfama', done: false },
