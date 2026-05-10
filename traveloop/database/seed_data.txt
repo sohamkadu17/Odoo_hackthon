@@ -1,0 +1,75 @@
+-- =============================================
+-- SAMPLE DATA FOR TRAVELOOP (Latest Schema)
+-- =============================================
+USE traveloop;
+
+-- 1. Users
+INSERT INTO users (id, email, password_hash, first_name, last_name, full_name, phone_number, avatar_url) VALUES
+('550e8400-e29b-41d4-a716-446655440000', 'rahul.sharma@email.com', '$2y$10$samplehashedpassword1234567890', 
+ 'Rahul', 'Sharma', 'Rahul Sharma', '+919876543210', 'https://example.com/avatar.jpg');
+
+-- 2. Cities
+INSERT INTO cities (name, country, country_code, region, cost_index, popularity_score, image_url, description) VALUES
+('Paris', 'France', 'FR', 'Europe', 2.85, 95, 'https://example.com/paris.jpg', 'City of Lights'),
+('Delhi', 'India', 'IN', 'South Asia', 1.15, 88, 'https://example.com/delhi.jpg', 'Capital of India');
+
+-- 3. Activity Categories
+INSERT INTO activity_categories (name, icon, color) VALUES
+('Sightseeing', '🏛️', '#3B82F6'),
+('Food & Drink', '🍽️', '#F59E0B'),
+('Transport', '✈️', '#10B981'),
+('Shopping', '🛍️', '#8B5CF6');
+
+-- 4. Catalog Items (Global Activities & Places)
+INSERT INTO catalog_items (city_id, category_id, item_type, name, description, price, rating, image_url, emoji) VALUES
+(1, 1, 'place',    'Eiffel Tower', 'Iconic iron lattice tower', 45.00, 4.9, 'eiffel.jpg', '🗼'),
+(1, 2, 'activity', 'Seine River Dinner Cruise', 'Romantic dinner cruise', 120.00, 4.7, 'seine.jpg', '🚤'),
+(1, 1, 'place',    'Louvre Museum', 'Worlds largest art museum', 22.00, 4.8, 'louvre.jpg', '🏛️');
+
+-- 5. Trips
+INSERT INTO trips (id, user_id, title, description, start_date, end_date, total_budget, tax_amount, discount_amount, status) VALUES
+('trip-paris-001', '550e8400-e29b-41d4-a716-446655440000', 'Paris Honeymoon 2025', 
+ 'Romantic 4 nights trip to Paris', '2025-06-01', '2025-06-05', 21000.00, 1050.00, 50.00, 'planned');
+
+-- 6. Trip Stops
+INSERT INTO trip_stops (id, trip_id, city_id, city_name, arrival_date, departure_date, `order`) VALUES
+('stop-paris-1', 'trip-paris-001', 1, 'Paris', '2025-06-01', '2025-06-05', 1);
+
+-- 7. Trip Activities
+INSERT INTO trip_activities (id, trip_stop_id, catalog_item_id, name, actual_cost, scheduled_date, duration_minutes, status) VALUES
+('act1', 'stop-paris-1', NULL, 'Eiffel Tower Visit', 45.00, '2025-06-02', 180, 'planned'),
+('act2', 'stop-paris-1', NULL, 'Seine River Dinner Cruise', 120.00, '2025-06-03', 240, 'planned');
+
+-- 8. Invoice Items (Matches SVG exactly)
+INSERT INTO invoice_items (id, trip_id, item_type, description, quantity, unit_cost) VALUES
+('inv1', 'trip-paris-001', 'hotel',   'Hotel Booking Paris', 3, 3000.00),
+('inv2', 'trip-paris-001', 'flight',  'Flight Bookings (DEL -> PAR)', 1, 12000.00);
+
+-- 9. Expenses
+INSERT INTO expenses (id, trip_id, invoice_item_id, category, description, amount, expense_date) VALUES
+('exp1', 'trip-paris-001', 'inv1', 'accommodation', 'Hotel Booking Paris', 9000.00, '2025-06-01'),
+('exp2', 'trip-paris-001', 'inv2', 'transport', 'Flight DEL to PAR', 12000.00, '2025-06-01');
+
+-- 10. Trip Budget Categories
+INSERT INTO trip_budget_categories (trip_id, category, budgeted_amount, spent_amount) VALUES
+('trip-paris-001', 'accommodation', 10000.00, 9000.00),
+('trip-paris-001', 'transport',     13000.00, 12000.00);
+
+-- 11. Packing Items
+INSERT INTO packing_items (trip_id, item_name, category, is_packed) VALUES
+('trip-paris-001', 'Passport & Visa Documents', 'documents', TRUE),
+('trip-paris-001', 'Power Adapter & Charger', 'electronics', FALSE),
+('trip-paris-001', 'Casual & Formal Wear', 'clothing', FALSE);
+
+-- 12. Trip Notes
+INSERT INTO trip_notes (trip_id, trip_stop_id, title, content, category, is_pinned) VALUES
+('trip-paris-001', 'stop-paris-1', 'Hotel Check-in Info', 
+ 'Novotel Paris Centre - Check-in after 14:00', 'accommodation', TRUE);
+
+-- 13. Trip Shares
+INSERT INTO trip_shares (trip_id, share_type) VALUES
+('trip-paris-001', 'public');
+
+-- 14. Trip Collaborators (Optional)
+INSERT INTO trip_collaborators (trip_id, invited_email, role, status) VALUES
+('trip-paris-001', 'friend@email.com', 'viewer', 'invited');
