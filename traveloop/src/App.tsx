@@ -34,8 +34,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route element={<MainLayout />}>
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/trips/new" element={<CreateTripPage />} />
