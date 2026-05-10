@@ -101,6 +101,7 @@ function ItineraryBuilderPage() {
   return (
     <PageShell
       title="Itinerary Builder"
+      eyebrow="Lisbon Loop"
       subtitle="Add cities, dates, and activities to assemble the full trip."
       actions={
         <>
@@ -113,10 +114,24 @@ function ItineraryBuilderPage() {
         </>
       }
     >
-      <div className="placeholder-grid">
-        <div className="placeholder-card">
-          <h3>Stops timeline</h3>
-          <p>Drag to reorder cities and adjust travel dates.</p>
+      {/* Budget bar */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+          <div className="flex items-center gap-6">
+            <div>
+              <p className="text-xs text-gray-500">Total budget</p>
+              <p className="text-xl font-bold text-gray-900">$3,200</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Spent so far</p>
+              <p className="text-xl font-bold text-blue-600">$1,230</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Remaining</p>
+              <p className="text-xl font-bold text-teal-600">$1,970</p>
+            </div>
+          </div>
+          <div className="text-xs text-gray-500">Jun 12 – Jun 18 · 6 days · 4 travelers</div>
         </div>
         <div className="mt-3 h-2 rounded-full bg-gray-100">
           <div className="h-2 w-[38%] rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all" />
@@ -271,6 +286,18 @@ function ItineraryBuilderPage() {
             </div>
           </WireCard>
         </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex justify-end gap-3">
+        <Link to="/itinerary/view">
+          <Button variant="secondary">Preview itinerary</Button>
+        </Link>
+        <Link to="/trips">
+          <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
+            Publish trip
+          </Button>
+        </Link>
       </div>
     </PageShell>
   )
