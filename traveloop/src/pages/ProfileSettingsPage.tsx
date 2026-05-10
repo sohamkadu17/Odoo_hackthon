@@ -44,7 +44,6 @@ function ProfileSettingsPage() {
   const fullName = currentUser ? `${currentUser.firstName ?? ''} ${currentUser.lastName ?? ''}`.trim() : ''
   const displayName = fullName || 'Travel user'
   const displayEmail = currentUser?.email || 'you@email.com'
-  const avatarLetter = (currentUser?.firstName?.[0] || currentUser?.email?.[0] || 'T').toUpperCase()
   const [photoPreview, setPhotoPreview] = useState<string | null>(currentUser?.profilePhoto || null)
 
   const handlePhotoUpload = (e: ChangeEvent<HTMLInputElement>) => {
