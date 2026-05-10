@@ -6,7 +6,6 @@
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types"],
     "types": ["node", "express"],
-    "ignoreDeprecations": "6.0",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,

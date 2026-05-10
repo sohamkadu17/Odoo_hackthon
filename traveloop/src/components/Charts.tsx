@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface PieChartProps {
   data: { label: string; value: number; color: string }[]
   size?: number

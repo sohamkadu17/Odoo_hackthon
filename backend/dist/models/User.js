@@ -9,7 +9,7 @@ User.init({
         primaryKey: true,
     },
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(191),
         allowNull: false,
         unique: true,
         validate: {
