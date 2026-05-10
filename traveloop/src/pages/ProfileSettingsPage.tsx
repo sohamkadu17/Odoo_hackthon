@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { User, Mail, Bell, Shield, Globe, Camera, Save, LogOut } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
+import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell'
 import WireCard from '../components/WireCard'
 
@@ -44,9 +46,9 @@ function ProfileSettingsPage() {
             })}
           </div>
 
-          <Button variant="secondary" className="w-full mt-2" icon={<LogOut className="h-4 w-4 text-red-500" />}>
+          <Link to="/login"><Button variant="secondary" className="w-full mt-2" icon={<LogOut className="h-4 w-4 text-red-500" />}>
             <span className="text-red-600">Sign out</span>
-          </Button>
+          </Button></Link>
         </aside>
 
         {/* Main content */}
@@ -148,8 +150,8 @@ function ProfileSettingsPage() {
 
               {/* Save */}
               <div className="flex justify-end gap-3">
-                <Button variant="secondary">Cancel</Button>
-                <Button variant="primary" icon={<Save className="h-4 w-4" />}>
+                <Button variant="secondary" onClick={() => toast.success('Changes discarded.')}>Cancel</Button>
+                <Button variant="primary" icon={<Save className="h-4 w-4" />} onClick={() => toast.success('Profile saved successfully!')}>
                   Save changes
                 </Button>
               </div>

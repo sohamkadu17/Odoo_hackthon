@@ -12,6 +12,7 @@ import {
   Shirt,
   HeartPulse,
 } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import ProgressBar from '../components/ProgressBar'
@@ -104,10 +105,10 @@ function PackingChecklistPage() {
       subtitle="Keep track of essentials with reusable, categorized packing lists."
       actions={
         <>
-          <Button variant="secondary" icon={<Copy className="h-4 w-4" />}>
+          <Button variant="secondary" icon={<Copy className="h-4 w-4" />} onClick={() => toast.success('Checklist copied to clipboard!')}>
             Duplicate list
           </Button>
-          <Button variant="primary" icon={<Plus className="h-4 w-4" />}>
+          <Button variant="primary" icon={<Plus className="h-4 w-4" />} onClick={() => toast.success('Added new item!')}>
             Add item
           </Button>
         </>

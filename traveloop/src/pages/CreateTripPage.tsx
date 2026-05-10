@@ -8,6 +8,7 @@ import {
   Lightbulb,
   Search,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import WireCard from '../components/WireCard'
@@ -181,9 +182,11 @@ function CreateTripPage() {
       {/* CTA */}
       <div className="flex justify-end gap-3">
         <Button variant="secondary">Save as draft</Button>
-        <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
-          Start building itinerary
-        </Button>
+        <Link to="/itinerary/builder">
+          <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
+            Start building itinerary
+          </Button>
+        </Link>
       </div>
     </PageShell>
   )

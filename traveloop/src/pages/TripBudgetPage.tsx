@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { toast } from 'react-hot-toast'
 import {
   Download,
   FileText,
@@ -43,13 +44,13 @@ function TripBudgetPage() {
       subtitle="Expense breakdown, invoice, and budget insights for your trip."
       actions={
         <>
-          <Button variant="secondary" size="md" icon={<Printer className="h-4 w-4" />}>
+          <Button variant="secondary" size="md" icon={<Printer className="h-4 w-4" />} onClick={() => toast.success('Printing invoice...')}>
             Print
           </Button>
-          <Button variant="secondary" size="md" icon={<FileText className="h-4 w-4" />}>
+          <Button variant="secondary" size="md" icon={<FileText className="h-4 w-4" />} onClick={() => toast.success('Exporting PDF...')}>
             Export CSV
           </Button>
-          <Button variant="primary" size="md" icon={<Download className="h-4 w-4" />}>
+          <Button variant="primary" size="md" icon={<Download className="h-4 w-4" />} onClick={() => toast.success('Downloading data...')}>
             Download PDF
           </Button>
         </>

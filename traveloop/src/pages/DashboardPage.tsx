@@ -9,6 +9,8 @@ import {
   ArrowRight,
   Plus,
   CheckCircle2,
+  CloudRain,
+  Navigation,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Badge from '../components/Badge'
@@ -87,7 +89,7 @@ function DashboardPage() {
       subtitle="Your home base for upcoming trips, shared itineraries, and planning focus areas."
       actions={
         <>
-          <Button variant="secondary" size="md" icon={<Calendar className="h-4 w-4" />}>
+          <Button variant="secondary" size="md" icon={<Calendar className="h-4 w-4" />} onClick={() => toast.success('Calendar synced successfully!')}>
             Sync calendar
           </Button>
           <Link to="/trips/new">

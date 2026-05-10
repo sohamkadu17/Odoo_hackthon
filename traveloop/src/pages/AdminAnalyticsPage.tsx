@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 import {
   BarChart3,
   TrendingUp,
@@ -59,10 +60,10 @@ function AdminAnalyticsPage() {
       subtitle="Monitor usage, engagement trends, and top destinations across the platform."
       actions={
         <>
-          <Button variant="secondary" size="md" icon={<BarChart3 className="h-4 w-4" />}>
+          <Button variant="secondary" size="md" icon={<BarChart3 className="h-4 w-4" />} onClick={() => toast.success('Exporting report...')}>
             Export report
           </Button>
-          <Button variant="primary" size="md">
+          <Button variant="primary" size="md" onClick={() => toast.success('Settings opened!')}>
             Live dashboard
           </Button>
         </>

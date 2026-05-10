@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { Plus, Search, FileText, Tag, Trash2, Edit3, Pin } from 'lucide-react'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
@@ -88,7 +89,7 @@ function TripNotesPage() {
       eyebrow="Lisbon Loop"
       subtitle="Capture ideas, research, and reminders for your trip — all in one place."
       actions={
-        <Button variant="primary" icon={<Plus className="h-4 w-4" />}>
+        <Button variant="primary" icon={<Plus className="h-4 w-4" />} onClick={() => toast.success('Note editor opened!')}>
           New note
         </Button>
       }
@@ -168,7 +169,7 @@ function TripNotesPage() {
           <FileText className="h-10 w-10 text-gray-300" />
           <p className="mt-3 text-sm font-semibold text-gray-600">No notes found</p>
           <p className="mt-1 text-xs text-gray-400">Try a different search or category</p>
-          <Button variant="primary" size="sm" className="mt-4" icon={<Plus className="h-4 w-4" />}>
+          <Button variant="primary" size="sm" className="mt-4" icon={<Plus className="h-4 w-4" />} onClick={() => toast.success('Added new note.')}>
             Create note
           </Button>
         </div>

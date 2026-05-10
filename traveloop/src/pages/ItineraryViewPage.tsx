@@ -10,6 +10,7 @@ import {
   Users,
   Calendar,
 } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
@@ -80,13 +81,13 @@ function ItineraryViewPage() {
       subtitle="Jun 12 – 18, 2026 · Lisbon, Sintra, Cascais · 4 travelers"
       actions={
         <>
-          <Button variant="secondary" icon={<Share2 className="h-4 w-4" />}>
+          <Button variant="secondary" icon={<Share2 className="h-4 w-4" />} onClick={() => toast.success('Share link copied to clipboard!')}>
             Share
           </Button>
-          <Button variant="secondary" icon={<Download className="h-4 w-4" />}>
+          <Button variant="secondary" icon={<Download className="h-4 w-4" />} onClick={() => toast.success('Downloading Itinerary...')}>
             Export PDF
           </Button>
-          <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
+          <Button variant="primary" icon={<Plane className="h-4 w-4" />} onClick={() => toast.success('Booking flights...')}>
             Edit in Builder
           </Button>
         </>
@@ -224,6 +225,7 @@ function ItineraryViewPage() {
                 return (
                   <button
                     key={action.label}
+                    onClick={() => toast.success(action.label + ' triggered!')}
                     className="flex w-full items-center justify-between rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
                   >
                     <div className="flex items-center gap-2.5">

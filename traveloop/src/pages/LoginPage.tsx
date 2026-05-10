@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, Plane, Globe, Wallet, Users } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Button from '../components/Button'
 
 const highlights = [
@@ -29,7 +30,14 @@ const highlights = [
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
-  const [isRegister, setIsRegister] = useState(false)
+  const location = useLocation()
+  const [isRegister, setIsRegister] = useState(location.state?.isRegister || false)
+  const navigate = useNavigate()
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    navigate('/dashboard')
+  }
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center">
@@ -99,7 +107,7 @@ function LoginPage() {
             </p>
           </div>
 
-          <form className="mt-6 space-y-4">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {isRegister && (
               <div className="grid grid-cols-2 gap-4">
                 <div>

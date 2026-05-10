@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Plane, Share2, Download, MapPin, Clock, Users, Calendar, Lock } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
@@ -38,10 +39,10 @@ function SharedItineraryPage() {
       subtitle={`Shared by ${sharedItinerary.owner} · ${sharedItinerary.dates}`}
       actions={
         <>
-          <Button variant="secondary" icon={<Download className="h-4 w-4" />}>
+          <Button variant="secondary" icon={<Download className="h-4 w-4" />} onClick={() => toast.success('Downloading Itinerary...')}>
             Save PDF
           </Button>
-          <Button variant="primary" icon={<Share2 className="h-4 w-4" />}>
+          <Button variant="primary" icon={<Share2 className="h-4 w-4" />} onClick={() => toast.success('Share link copied to clipboard!')}>
             Copy link
           </Button>
         </>
@@ -147,10 +148,10 @@ function SharedItineraryPage() {
 
           <WireCard title="Actions" variant="dashed">
             <div className="space-y-2">
-              <Button variant="secondary" className="w-full" icon={<Download className="h-4 w-4" />}>
+              <Button variant="secondary" className="w-full" icon={<Download className="h-4 w-4" />} onClick={() => toast.success('Downloading Itinerary...')}>
                 Download PDF
               </Button>
-              <Button variant="secondary" className="w-full" icon={<Share2 className="h-4 w-4" />}>
+              <Button variant="secondary" className="w-full" icon={<Share2 className="h-4 w-4" />} onClick={() => toast.success('Share link copied to clipboard!')}>
                 Copy shareable link
               </Button>
             </div>

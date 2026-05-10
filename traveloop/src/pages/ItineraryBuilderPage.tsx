@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Lightbulb,
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
@@ -245,10 +246,14 @@ function ItineraryBuilderPage() {
 
       {/* Actions */}
       <div className="flex justify-end gap-3">
-        <Button variant="secondary">Preview itinerary</Button>
-        <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
-          Publish trip
-        </Button>
+        <Link to="/itinerary/view">
+          <Button variant="secondary">Preview itinerary</Button>
+        </Link>
+        <Link to="/trips">
+          <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
+            Publish trip
+          </Button>
+        </Link>
       </div>
     </PageShell>
   )

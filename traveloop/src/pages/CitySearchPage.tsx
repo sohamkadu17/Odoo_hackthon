@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Search, Filter, Star, MapPin, TrendingUp, Globe } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import { fadeUpVariants } from '../utils/variants'
@@ -49,7 +50,7 @@ function CitySearchPage() {
               <option>Sort: Rating</option>
               <option>Sort: A–Z</option>
             </select>
-            <Button variant="secondary" size="md" icon={<Filter className="h-4 w-4" />}>
+            <Button variant="secondary" size="md" icon={<Filter className="h-4 w-4" />} onClick={() => toast.success('Filters opened!')}>
               Filters
             </Button>
           </div>
@@ -141,7 +142,7 @@ function CitySearchPage() {
 
               <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
                 <span>{city.trips} trips planned</span>
-                <Button variant="primary" size="sm">
+                <Button variant="primary" size="sm" onClick={() => toast.success('Added to trip!')}>
                   Add to trip
                 </Button>
               </div>

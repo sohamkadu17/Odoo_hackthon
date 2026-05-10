@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Search, Filter, Star, Clock, DollarSign, Plus, Tag } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import { fadeUpVariants } from '../utils/variants'
@@ -125,7 +126,7 @@ function ActivitySearchPage() {
                 className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
             </div>
-            <Button variant="secondary" size="md" icon={<Filter className="h-4 w-4" />}>
+            <Button onClick={() => toast.success('Added to trip!')} variant="secondary" size="md" icon={<Filter className="h-4 w-4" />}>
               More filters
             </Button>
           </div>
@@ -178,7 +179,7 @@ function ActivitySearchPage() {
                     </span>
                   </div>
                 </div>
-                <Button
+                <Button onClick={() => toast.success('Added to trip!')}
                   variant="secondary"
                   size="sm"
                   className="mt-4 w-full"
