@@ -109,19 +109,60 @@ const LineChart = () => (
   </svg>
 )
 
-const BarChart = () => (
-  <svg viewBox="0 0 200 100" className="h-40 w-full">
-    <rect x="20" y="60" width="20" height="30" fill="#f97316" />
-    <rect x="50" y="40" width="20" height="50" fill="#fb923c" />
-    <rect x="80" y="30" width="20" height="60" fill="#fbbf24" />
-    <rect x="110" y="45" width="20" height="45" fill="#fcd34d" />
-    <rect x="140" y="50" width="20" height="40" fill="#fde047" />
-  </svg>
-)
+const BarChart = ({ onBarClick }: { onBarClick: (data: any) => void }) => {
+  const barData = [
+    { x: 20, y: 60, width: 20, height: 30, value: '$2,400', label: 'Lisbon', color: '#f97316' },
+    { x: 50, y: 40, width: 20, height: 50, value: '$4,800', label: 'Paris', color: '#fb923c' },
+    { x: 80, y: 30, width: 20, height: 60, value: '$6,200', label: 'Kyoto', color: '#fbbf24' },
+    { x: 110, y: 45, width: 20, height: 45, value: '$3,900', label: 'Tokyo', color: '#fcd34d' },
+    { x: 140, y: 50, width: 20, height: 40, value: '$3,200', label: 'Barcelona', color: '#fde047' },
+  ]
+  
+  const maxValue = Math.max(...barData.map(bar => bar.height))
+  const highestBar = barData.find(bar => bar.height === maxValue)
+  
+  return (
+    <svg viewBox="0 0 200 100" className="h-40 w-full">
+      {barData.map((bar, index) => (
+        <motion.g key={bar.label}>
+          <motion.rect
+            x={bar.x}
+            y={bar.y}
+            width={bar.width}
+            height={bar.height}
+            fill={bar.color}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ delay: index * 0.1, duration: 0.5 }}
+            style={{ originY: 'bottom' }}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => onBarClick(bar)}
+            stroke={bar === highestBar ? '#dc2626' : 'none'}
+            strokeWidth={bar === highestBar ? 2 : 0}
+          />
+          {bar === highestBar && (
+            <motion.text
+              x={bar.x + bar.width / 2}
+              y={bar.y - 5}
+              textAnchor="middle"
+              className="text-xs font-bold fill-red-600"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              TOP
+            </motion.text>
+          )}
+        </motion.g>
+      ))}
+    </svg>
+  )
+}
 
 function AnalysisDashboard() {
   const [selectedSegment, setSelectedSegment] = useState<any>(null)
   const [animatedValue, setAnimatedValue] = useState(0)
+  const [selectedBar, setSelectedBar] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
 
@@ -136,6 +177,10 @@ function AnalysisDashboard() {
     
     return matchesSearch && matchesStatus
   })
+
+  const handleBarClick = (bar: any) => {
+    setSelectedBar(bar)
+  }
 
   const handleSegmentClick = (segment: any) => {
     setSelectedSegment(segment)
@@ -264,10 +309,20 @@ function AnalysisDashboard() {
           className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-lg hover:border-blue-300 hover:bg-white/90 transition-all duration-300"
         >
           <h3 className="text-lg font-semibold text-slate-900 mb-4">Top Destinations</h3>
-          <BarChart />
+          <BarChart onBarClick={handleBarClick} />
           <div className="mt-4 space-y-1 text-xs text-slate-600">
             <p>Most popular travel spots this month</p>
             <p className="font-semibold text-slate-900">Lisbon • Paris • Kyoto • Tokyo • Barcelona</p>
+            {selectedBar && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-2 p-2 bg-slate-50 rounded-lg text-center"
+              >
+                <p className="font-semibold text-slate-700">{selectedBar.label}</p>
+                <p className="text-lg font-bold" style={{ color: selectedBar.color }}>{selectedBar.value}</p>
+              </motion.div>
+            )}
           </div>
         </motion.div>
       </section>
