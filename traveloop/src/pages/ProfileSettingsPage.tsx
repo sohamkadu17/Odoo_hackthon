@@ -38,6 +38,32 @@ const sections = [
   { id: 'preferences', label: 'Preferences', icon: Globe },
 ]
 
+const defaultProfilePhoto =
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop'
+
+const getSafeImageSrc = (value: string | null, fallback: string) => {
+  if (!value) {
+    return fallback
+  }
+
+  if (value.trim().toLowerCase().startsWith('javascript:')) {
+    return fallback
+  }
+
+  const baseOrigin = typeof window === 'undefined' ? 'https://example.com' : window.location.origin
+
+  try {
+    const url = new URL(value, baseOrigin)
+    if (['http:', 'https:', 'data:'].includes(url.protocol)) {
+      return value
+    }
+  } catch {
+    return fallback
+  }
+
+  return fallback
+}
+
 function ProfileSettingsPage() {
   const [activeSection, setActiveSection] = useState('profile')
   const currentUser = getStoredUser()
@@ -154,7 +180,7 @@ function ProfileSettingsPage() {
                 <div className="flex items-center gap-5">
                   <div className="relative">
                     <img 
-                      src={photoPreview || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"} 
+                      src={getSafeImageSrc(photoPreview, defaultProfilePhoto)} 
                       alt="Profile" 
                       loading="lazy"
                       className="h-20 w-20 rounded-2xl object-cover shadow-md border border-gray-200" 

@@ -79,6 +79,30 @@ const trips = [
 ]
 
 const itemVariants = fadeUpVariants
+const fallbackTripImage = 'https://picsum.photos/seed/traveloop/800/600'
+
+const getSafeImageSrc = (value: string, fallback: string) => {
+  if (!value) {
+    return fallback
+  }
+
+  if (value.trim().toLowerCase().startsWith('javascript:')) {
+    return fallback
+  }
+
+  const baseOrigin = typeof window === 'undefined' ? 'https://example.com' : window.location.origin
+
+  try {
+    const url = new URL(value, baseOrigin)
+    if (['http:', 'https:', 'data:'].includes(url.protocol)) {
+      return value
+    }
+  } catch {
+    return fallback
+  }
+
+  return fallback
+}
 
 function MyTripsPage() {
   const [isLoading, setIsLoading] = useState(true)
@@ -150,7 +174,7 @@ function MyTripsPage() {
                 <div className="relative h-44 w-full overflow-hidden">
                   <img
                     loading="lazy"
-                    src={trip.image}
+                    src={getSafeImageSrc(trip.image, fallbackTripImage)}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-110"
                     alt={trip.name}
                   />
