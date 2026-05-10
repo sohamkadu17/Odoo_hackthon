@@ -4,7 +4,6 @@ import {
   Map,
   Calendar,
   TrendingUp,
-  Sun,
   Users,
   Plus,
   CheckCircle2,
@@ -26,6 +25,16 @@ const statCards = [
 ]
 
 type BadgeTone = 'amber' | 'blue' | 'cyan' | 'green'
+
+type Trip = {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  isPublic: boolean
+  coverPhoto?: string
+  TripStops?: any[]
+}
 
 const upcomingTrips = [
   {
@@ -82,10 +91,44 @@ const weather = [
 
 function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true)
+  const [trips, setTrips] = useState<Trip[]>([])
+  const [stats, setStats] = useState(statCards)
 
   useEffect(() => {
-    const t = setTimeout(() => setIsLoading(false), 400)
-    return () => clearTimeout(t)
+    const fetchTrips = async () => {
+      try {
+        const token = localStorage.getItem('traveloop_token')
+        const response = await fetch('http://localhost:5000/api/trips', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          const fetchedTrips = data.data || []
+          setTrips(fetchedTrips)
+          
+          let totalDays = 0
+          fetchedTrips.forEach((t: Trip) => {
+            const start = new Date(t.startDate)
+            const end = new Date(t.endDate)
+            totalDays += Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
+          })
+
+          setStats([
+            { label: 'Active Trips', value: fetchedTrips.length.toString(), icon: Map, color: 'text-blue-600', bg: 'bg-blue-50', trend: 'Total trips' },
+            { label: 'Days Planned', value: totalDays.toString(), icon: Calendar, color: 'text-indigo-600', bg: 'bg-indigo-50', trend: `Across ${fetchedTrips.length} trips` },
+            { label: 'Budget Used', value: 'N/A', icon: TrendingUp, color: 'text-cyan-600', bg: 'bg-cyan-50', trend: 'Coming soon' },
+            { label: 'Crew Members', value: '1', icon: Users, color: 'text-teal-600', bg: 'bg-teal-50', trend: 'Just you' },
+          ])
+        }
+      } catch (err) {
+        console.error('Failed to fetch trips:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTrips()
   }, [])
 
   return (
@@ -136,14 +179,14 @@ function DashboardPage() {
                    Welcome back, Explorer.
                 </h1>
                 <p className="text-stone-300 text-lg font-medium">
-                   You have 3 upcoming adventures. The world is waiting.
+                   You have {trips.length} upcoming adventures. The world is waiting.
                 </p>
              </div>
           </motion.div>
 
           {/* Stats row */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((stat) => {
+        {stats.map((stat) => {
           const Icon = stat.icon
           return (
             <TiltCard key={stat.label}>
@@ -179,44 +222,51 @@ function DashboardPage() {
           }
         >
           <div className="space-y-4">
-            {upcomingTrips.map((trip) => (
-              <div
-                key={trip.name}
-                className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-5 pb-5 pt-20 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1 sm:h-[180px] sm:pt-0"
-              >
-                <img 
-                  src={trip.image} 
-                  className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-[3s] group-hover:opacity-90 group-hover:scale-110" 
-                  alt={trip.name}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/95 via-stone-900/40 to-transparent mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
-                
-                <div className="relative z-10 w-full">
-                  <div className="flex w-full items-end justify-between">
-                    <div>
-                      <Badge tone={trip.tone} className="mb-2 border-none bg-white/20 text-white backdrop-blur-md">
-                        {trip.status}
-                      </Badge>
-                      <h3 className="text-xl font-bold tracking-tight text-white mb-0.5">{trip.name}</h3>
-                      <p className="text-sm font-medium text-stone-300">
-                        {trip.dates} · {trip.cities}
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end gap-3 text-right">
-                      <span className="rounded-full bg-blue-600/90 px-3 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm">
-                        {trip.daysLeft}d away
-                      </span>
-                      <div className="flex -space-x-2">
-                        {[...Array(Number(trip.travelers))].map((_, idx) => (
-                          <img key={idx} src={`https://i.pravatar.cc/150?img=${idx + Math.floor(Math.random() * 40)}`} alt="Traveler avatar" loading="lazy" className="h-8 w-8 rounded-full border-2 border-stone-800 bg-stone-300 shadow-sm object-cover" />
-                        ))}
+            {trips.length === 0 ? (
+              <div className="flex h-40 items-center justify-center text-sm text-gray-400">No trips yet. Create your first trip!</div>
+            ) : (
+              trips.slice(0, 3).map((trip) => {
+                const cities = trip.TripStops?.map((s: any) => s.City?.name).filter(Boolean).join(', ') || 'Various cities'
+                const startDateStr = new Date(trip.startDate).toLocaleDateString()
+                const endDateStr = new Date(trip.endDate).toLocaleDateString()
+                const daysLeft = Math.max(0, Math.ceil((new Date(trip.startDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))
+                return (
+                  <div
+                    key={trip.id}
+                    className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-5 pb-5 pt-20 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1 sm:h-[180px] sm:pt-0"
+                  >
+                    {trip.coverPhoto && (
+                      <img 
+                        src={trip.coverPhoto} 
+                        className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-[3s] group-hover:opacity-90 group-hover:scale-110" 
+                        alt={trip.name}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/95 via-stone-900/40 to-transparent mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
+                    
+                    <div className="relative z-10 w-full">
+                      <div className="flex w-full items-end justify-between">
+                        <div>
+                          <Badge tone={trip.isPublic ? 'blue' : 'gray'} className="mb-2 border-none bg-white/20 text-white backdrop-blur-md">
+                            {trip.isPublic ? 'Shared' : 'Private'}
+                          </Badge>
+                          <h3 className="text-xl font-bold tracking-tight text-white mb-0.5">{trip.name}</h3>
+                          <p className="text-sm font-medium text-stone-300">
+                            {startDateStr} – {endDateStr} · {cities}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-3 text-right">
+                          <span className="rounded-full bg-blue-600/90 px-3 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm">
+                            {daysLeft > 0 ? `${daysLeft}d away` : 'Past'}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                )
+              })
+            )}
           </div>
         </WireCard>
 

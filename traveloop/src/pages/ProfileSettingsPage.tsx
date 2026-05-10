@@ -41,10 +41,16 @@ const sections = [
 function ProfileSettingsPage() {
   const [activeSection, setActiveSection] = useState('profile')
   const currentUser = getStoredUser()
-  const fullName = currentUser ? `${currentUser.firstName ?? ''} ${currentUser.lastName ?? ''}`.trim() : ''
+  
+  const [firstName, setFirstName] = useState(currentUser?.firstName || '')
+  const [lastName, setLastName] = useState(currentUser?.lastName || '')
+  const [email, setEmail] = useState(currentUser?.email || '')
+  const [bio, setBio] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
+
+  const fullName = `${firstName} ${lastName}`.trim()
   const displayName = fullName || 'Travel user'
-  const displayEmail = currentUser?.email || 'you@email.com'
-  const avatarLetter = (currentUser?.firstName?.[0] || currentUser?.email?.[0] || 'T').toUpperCase()
+  const displayEmail = email || 'you@email.com'
   const [photoPreview, setPhotoPreview] = useState<string | null>(currentUser?.profilePhoto || null)
 
   const handlePhotoUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +66,34 @@ function ProfileSettingsPage() {
         toast.success('Photo uploaded successfully!')
       }
       reader.readAsDataURL(file)
+    }
+  }
+
+  const handleSaveProfile = async () => {
+    try {
+      setIsSaving(true)
+      const token = localStorage.getItem('traveloop_token')
+      const response = await fetch('http://localhost:5000/api/auth/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ firstName, lastName, email, profilePhoto: photoPreview })
+      })
+
+      if (!response.ok) throw new Error('Failed to save profile')
+      
+      // Update local storage so it persists locally too
+      const updatedUser = { ...currentUser, firstName, lastName, email, profilePhoto: photoPreview }
+      localStorage.setItem('traveloop_user', JSON.stringify(updatedUser))
+      
+      toast.success('Profile saved successfully!')
+    } catch (err) {
+      console.error(err)
+      toast.error('Failed to save profile')
+    } finally {
+      setIsSaving(false)
     }
   }
 
@@ -156,7 +190,8 @@ function ProfileSettingsPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">First name</label>
                     <input
                       type="text"
-                      defaultValue={currentUser?.firstName || ''}
+                      value={firstName}
+                      onChange={e => setFirstName(e.target.value)}
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>
@@ -164,7 +199,8 @@ function ProfileSettingsPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">Last name</label>
                     <input
                       type="text"
-                      defaultValue={currentUser?.lastName || ''}
+                      value={lastName}
+                      onChange={e => setLastName(e.target.value)}
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>
@@ -175,7 +211,8 @@ function ProfileSettingsPage() {
                     </label>
                     <input
                       type="email"
-                      defaultValue={currentUser?.email || ''}
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>
@@ -208,6 +245,8 @@ function ProfileSettingsPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">Bio (optional)</label>
                     <textarea
                       rows={3}
+                      value={bio}
+                      onChange={e => setBio(e.target.value)}
                       placeholder="Tell your crew a bit about your travel style…"
                       className="w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
@@ -218,8 +257,8 @@ function ProfileSettingsPage() {
               {/* Save */}
               <div className="flex justify-end gap-3">
                 <Button variant="secondary" onClick={() => toast.success('Changes discarded.')}>Cancel</Button>
-                <Button variant="primary" icon={<Save className="h-4 w-4" />} onClick={() => toast.success('Profile saved successfully!')}>
-                  Save changes
+                <Button variant="primary" icon={<Save className="h-4 w-4" />} onClick={handleSaveProfile} disabled={isSaving}>
+                  {isSaving ? 'Saving...' : 'Save changes'}
                 </Button>
               </div>
             </>
