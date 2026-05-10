@@ -66,6 +66,7 @@ function ProfileSettingsPage() {
                 <div className="flex items-center gap-5">
                   <div className="relative">
                     <img 
+                    loading="lazy"
                       src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop" 
                       alt="Alex Jordan" 
                       className="h-20 w-20 rounded-2xl object-cover shadow-md border border-gray-200" 

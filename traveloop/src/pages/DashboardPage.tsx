@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import {
-  Plane,
   Map,
   Calendar,
   TrendingUp,
   Sun,
   Users,
-  ArrowRight,
   Plus,
   CheckCircle2,
 } from 'lucide-react'
@@ -211,7 +209,7 @@ function DashboardPage() {
                       </span>
                       <div className="flex -space-x-2">
                         {[...Array(Number(trip.travelers))].map((_, idx) => (
-                          <img key={idx} src={`https://i.pravatar.cc/150?img=${idx + Math.floor(Math.random() * 40)}`} alt="Traveler avatar" className="h-8 w-8 rounded-full border-2 border-stone-800 bg-stone-300 shadow-sm object-cover" />
+                          <img key={idx} src={`https://i.pravatar.cc/150?img=${idx + Math.floor(Math.random() * 40)}`} alt="Traveler avatar" loading="lazy" className="h-8 w-8 rounded-full border-2 border-stone-800 bg-stone-300 shadow-sm object-cover" />
                         ))}
                       </div>
                     </div>

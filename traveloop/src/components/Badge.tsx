@@ -6,6 +6,7 @@ type BadgeProps = {
   tone?: BadgeTone
   children: ReactNode
   dot?: boolean
+  className?: string
 }
 
 const toneClasses: Record<BadgeTone, string> = {
@@ -32,10 +33,10 @@ const dotColors: Record<BadgeTone, string> = {
   purple: 'bg-purple-500',
 }
 
-function Badge({ tone = 'gray', children, dot = false }: BadgeProps) {
+function Badge({ tone = 'gray', children, dot = false, className = '' }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${toneClasses[tone]}`}
+      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset ${toneClasses[tone]} ${className}`}
     >
       {dot && (
         <span className={`h-1.5 w-1.5 rounded-full ${dotColors[tone]}`} />

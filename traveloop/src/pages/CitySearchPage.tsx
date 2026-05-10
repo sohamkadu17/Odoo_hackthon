@@ -106,7 +106,7 @@ function CitySearchPage() {
           >
             {/* Cover */}
             <div className="relative flex h-40 items-center justify-center overflow-hidden bg-gray-100">
-              <img src={city.image} alt={city.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <img src={city.image} alt={city.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
               <div className="absolute bottom-3 left-3 text-3xl filter drop-shadow-md">
                  {city.emoji}

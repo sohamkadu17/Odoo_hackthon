@@ -42,6 +42,7 @@ export default function LandingPage() {
             className="h-full w-full"
           >
             <img
+            loading="lazy"
               src={BG_URL}
               alt="Beautiful mountain landscape"
               className="h-full w-full object-cover"
