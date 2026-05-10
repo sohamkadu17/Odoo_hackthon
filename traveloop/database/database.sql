@@ -1,36 +1,19 @@
-CREATE DATABASE IF NOT EXISTS traveloop
-CHARACTER SET utf8mb4
+CREATE DATABASE IF NOT EXISTS traveloop 
+CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 
 USE traveloop;
 
-SET FOREIGN_KEY_CHECKS = 0;
-
-DROP TABLE IF EXISTS trip_shares;
-DROP TABLE IF EXISTS trip_notes;
-DROP TABLE IF EXISTS packing_items;
-DROP TABLE IF EXISTS expenses;
-DROP TABLE IF EXISTS invoice_items;
-DROP TABLE IF EXISTS trip_activities;
-DROP TABLE IF EXISTS trip_stops;
-DROP TABLE IF EXISTS trips;
-DROP TABLE IF EXISTS activity_categories;
-DROP TABLE IF EXISTS cities;
-DROP TABLE IF EXISTS users;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
+-- =============================================
+-- 1. USERS
+-- =============================================
 CREATE TABLE users (
-    id CHAR(36) NOT NULL PRIMARY KEY,
-    email VARCHAR(255) NOT NULL,
+    id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(30) NULL,
-    city VARCHAR(100) NULL,
-    country VARCHAR(100) NULL,
-    avatar_url VARCHAR(500) NULL,
-    bio TEXT NULL,
+    full_name VARCHAR(100),
+    avatar_url VARCHAR(500),
+    bio TEXT,
     preferred_language VARCHAR(10) DEFAULT 'en',
     currency CHAR(3) DEFAULT 'USD',
     is_email_verified BOOLEAN DEFAULT FALSE,
