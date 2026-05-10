@@ -1,0 +1,70 @@
+-- =============================================
+-- SAMPLE DATA FOR TRAVELOOP
+-- =============================================
+
+USE traveloop;
+
+-- 1. Insert Users
+INSERT INTO users (id, email, password_hash, full_name) VALUES
+('550e8400-e29b-41d4-a716-446655440000', 'demo@traveloop.com', '$2y$10$samplehashedpassword123456789', 'Rahul Sharma');
+
+-- 2. Insert Cities
+INSERT INTO cities (name, country, country_code, cost_index, image_url, description) VALUES
+('Paris', 'France', 'FR', 2.8, 'https://example.com/paris.jpg', 'City of Lights'),
+('Delhi', 'India', 'IN', 1.2, 'https://example.com/delhi.jpg', 'Capital of India');
+
+-- 3. Insert Activity Categories
+INSERT INTO activity_categories (name, icon) VALUES
+('Sightseeing', '🏛️'),
+('Food & Drink', '🍽️'),
+('Transport', '✈️'),
+('Shopping', '🛍️');
+
+-- 4. Insert a Trip (Paris Trip - Matches SVG)
+INSERT INTO trips (
+    id, user_id, title, description, start_date, end_date, 
+    total_budget, tax_amount, discount_amount, currency, status
+) VALUES (
+    'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+    '550e8400-e29b-41d4-a716-446655440000',
+    'Paris Honeymoon Trip',
+    'Romantic 3 nights trip to Paris',
+    '2025-06-01', '2025-06-05',
+    21000.00, 1050.00, 50.00, 'USD', 'planned'
+);
+
+-- 5. Insert Trip Stops
+INSERT INTO trip_stops (id, trip_id, city_id, city_name, arrival_date, departure_date, `order`) VALUES
+('s1', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 1, 'Paris', '2025-06-01', '2025-06-04', 1);
+
+-- 6. Insert Trip Activities
+INSERT INTO trip_activities (
+    id, trip_stop_id, category_id, name, description, 
+    actual_cost, scheduled_date, duration_minutes, status
+) VALUES
+('ta1', 's1', 1, 'Eiffel Tower Visit', 'Evening visit with lights', 45.00, '2025-06-02', 180, 'planned'),
+('ta2', 's1', 2, 'Seine River Cruise', 'Romantic dinner cruise', 120.00, '2025-06-03', 240, 'planned');
+
+-- 7. Insert Invoice Items (Exactly as per SVG)
+INSERT INTO invoice_items (id, trip_id, item_type, description, quantity, unit_cost) VALUES
+('inv1', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'hotel', 'Hotel Booking Paris', 3, 3000.00),
+('inv2', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'flight', 'Flight Bookings (DEL -> PAR)', 1, 12000.00);
+
+-- 8. Insert Expenses
+INSERT INTO expenses (id, trip_id, invoice_item_id, category, description, amount, expense_date) VALUES
+('e1', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'inv1', 'accommodation', 'Hotel Booking Paris', 9000.00, '2025-06-01'),
+('e2', 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'inv2', 'transport', 'Flight DEL to PAR', 12000.00, '2025-06-01');
+
+-- 9. Insert Packing Items
+INSERT INTO packing_items (trip_id, item_name, category, is_packed) VALUES
+('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'Passport', 'documents', TRUE),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'Power Adapter', 'electronics', FALSE),
+('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'Casual Clothes', 'clothing', FALSE);
+
+-- 10. Insert Trip Notes
+INSERT INTO trip_notes (trip_id, trip_stop_id, title, content) VALUES
+('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 's1', 'Hotel Check-in', 'Hotel: Novotel Paris Centre - Check-in after 2 PM');
+
+-- 11. Insert Trip Share (Public Link)
+INSERT INTO trip_shares (trip_id, share_type, public_slug) VALUES
+('a1b2c3d4-e5f6-7890-abcd-ef1234567890', 'public', 'paris-honeymoon-2025');
