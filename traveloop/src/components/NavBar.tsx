@@ -21,7 +21,7 @@ const navItems = [
   { label: 'Itinerary', to: '/itinerary/view', icon: Route },
   { label: 'Budget', to: '/budget', icon: Wallet },
   { label: 'Packing', to: '/packing', icon: Backpack },
-  { label: 'Admin', to: '/admin', icon: BarChart3 },
+  { label: 'Analysis', to: '/analysis', icon: BarChart3 },
 ]
 
 function NavBar() {
