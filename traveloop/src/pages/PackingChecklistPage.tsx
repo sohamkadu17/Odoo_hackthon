@@ -3,10 +3,8 @@ import { useState } from 'react'
 import {
   CheckCircle2,
   Circle,
-  Circle,
   Plus,
   Trash2,
-  Copy,
   Package,
   FileText,
   Smartphone,

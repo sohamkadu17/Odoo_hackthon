@@ -43,29 +43,29 @@ function MainLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route element={<MainLayout />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/trips/new" element={<CreateTripPage />} />
-          <Route path="/trips" element={<MyTripsPage />} />
-          <Route path="/itinerary/builder" element={<ItineraryBuilderPage />} />
-          <Route path="/itinerary/view" element={<ItineraryViewPage />} />
-          <Route path="/search/cities" element={<CitySearchPage />} />
-          <Route path="/search/activities" element={<ActivitySearchPage />} />
-          <Route path="/budget" element={<TripBudgetPage />} />
-          <Route path="/packing" element={<PackingChecklistPage />} />
-          <Route path="/shared/:id" element={<SharedItineraryPage />} />
-          <Route path="/profile" element={<ProfileSettingsPage />} />
-          <Route path="/notes" element={<TripNotesPage />} />
-          <Route path="/admin" element={<AdminAnalyticsPage />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-      <Toaster position="bottom-right" />
-    </BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route element={<MainLayout />}>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/trips/new" element={<CreateTripPage />} />
+            <Route path="/trips" element={<MyTripsPage />} />
+            <Route path="/itinerary/builder" element={<ItineraryBuilderPage />} />
+            <Route path="/itinerary/view" element={<ItineraryViewPage />} />
+            <Route path="/search/cities" element={<CitySearchPage />} />
+            <Route path="/search/activities" element={<ActivitySearchPage />} />
+            <Route path="/budget" element={<TripBudgetPage />} />
+            <Route path="/packing" element={<PackingChecklistPage />} />
+            <Route path="/shared/:id" element={<SharedItineraryPage />} />
+            <Route path="/profile" element={<ProfileSettingsPage />} />
+            <Route path="/notes" element={<TripNotesPage />} />
+            <Route path="/admin" element={<AdminAnalyticsPage />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Route>
+        </Routes>
+        <Toaster position="bottom-right" />
+      </BrowserRouter>
   )
 }
 

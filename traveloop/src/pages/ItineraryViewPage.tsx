@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { TracingBeam } from '../components/TracingBeam'
 import {
   Plane,
   Share2,
@@ -123,8 +124,10 @@ function ItineraryViewPage() {
 
       <div className="grid gap-6 lg:grid-cols-[1.3fr,0.7fr]">
         {/* Timeline */}
-        <div className="space-y-6">
-          {timeline.map((day, dayIndex) => (
+        <div className="relative">
+          <TracingBeam className="px-2 md:px-6">
+            <div className="space-y-6">
+              {timeline.map((day, dayIndex) => (
             <motion.div
               key={day.day}
               initial={{ opacity: 0, y: 16 }}
@@ -177,7 +180,9 @@ function ItineraryViewPage() {
               </div>
             </motion.div>
           ))}
-        </div>
+          </div>
+        </TracingBeam>
+      </div>
 
         {/* Expense Sidebar */}
         <div className="space-y-5">
