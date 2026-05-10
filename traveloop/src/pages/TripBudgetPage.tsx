@@ -15,6 +15,29 @@ import PageShell from '../components/PageShell'
 import ProgressBar from '../components/ProgressBar'
 import WireCard from '../components/WireCard'
 
+type StoredUser = {
+  firstName?: string
+  lastName?: string
+  email?: string
+}
+
+const getStoredUser = (): StoredUser | null => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  const rawUser = localStorage.getItem('traveloop_user')
+  if (!rawUser) {
+    return null
+  }
+
+  try {
+    return JSON.parse(rawUser) as StoredUser
+  } catch {
+    return null
+  }
+}
+
 const invoiceItems = [
   { description: 'Solar do Castelo Boutique — 3 nights', category: 'Lodging', qty: 4, unit: '$180', total: '$720' },
   { description: 'Pena Palace tickets (×4)', category: 'Activities', qty: 4, unit: '$22', total: '$88' },
@@ -37,6 +60,11 @@ const tax = '$94.20'
 const total = '$1,664.20'
 
 function TripBudgetPage() {
+  const currentUser = getStoredUser()
+  const fullName = currentUser ? `${currentUser.firstName ?? ''} ${currentUser.lastName ?? ''}`.trim() : ''
+  const displayName = fullName || 'Travel user'
+  const displayEmail = currentUser?.email || 'you@email.com'
+
   return (
     <PageShell
       title="Trip Budget & Invoice"
@@ -94,8 +122,8 @@ function TripBudgetPage() {
           <div className="grid gap-3 rounded-xl bg-gray-50 p-4 sm:grid-cols-2 text-sm">
             <div>
               <p className="text-xs text-gray-500">Billed to</p>
-              <p className="font-semibold text-gray-900">Alex Jordan</p>
-              <p className="text-gray-600">alex@email.com</p>
+              <p className="font-semibold text-gray-900">{displayName}</p>
+              <p className="text-gray-600">{displayEmail}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500">Trip dates</p>

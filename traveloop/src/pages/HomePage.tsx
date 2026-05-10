@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plane, Globe, Wallet, Users, Shield, ArrowRight, Star, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -59,6 +60,31 @@ const statusColors: Record<string, string> = {
 const itemVariants = fadeUpVariants
 
 function HomePage() {
+  const [searchResults, setSearchResults] = useState<any[]>([])
+  const [searching, setSearching] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!searchQuery.trim()) {
+      setSearchResults([])
+      return
+    }
+
+    try {
+      setSearching(true)
+      const response = await fetch(
+        `http://localhost:5000/api/search/cities?q=${encodeURIComponent(searchQuery)}`
+      )
+      const data = await response.json()
+      setSearchResults(data.data || [])
+    } catch (error) {
+      console.error('Search failed:', error)
+      setSearchResults([])
+    } finally {
+      setSearching(false)
+    }
+  }
   return (
     <div className="space-y-10">
       {/* Hero Section */}
@@ -118,12 +144,14 @@ function HomePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15, duration: 0.4 }}
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <form onSubmit={handleSearch} className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="relative flex-1">
             <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="Search destinations…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-9 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
@@ -140,10 +168,37 @@ function HomePage() {
               <option>Mid-range</option>
               <option>Luxury</option>
             </select>
-            <Button variant="primary" size="md">Search</Button>
+            <Button variant="primary" size="md" disabled={searching}>
+              {searching ? 'Searching...' : 'Search'}
+            </Button>
           </div>
-        </div>
+        </form>
       </motion.section>
+
+      {/* Search Results */}
+      {searchResults.length > 0 && (
+        <motion.section
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+        >
+          <h2 className="mb-4 text-lg font-bold text-gray-900">Search Results ({searchResults.length})</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {searchResults.map((city: any) => (
+              <div key={city.id} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md transition">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-2xl">📍</div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900">{city.name}</h3>
+                    <p className="text-sm text-gray-500">{city.country}</p>
+                    <p className="mt-1 text-xs text-gray-400">Cost index: {city.costIndex}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+      )}
 
       {/* Features */}
       <section>
