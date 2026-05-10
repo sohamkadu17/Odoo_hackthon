@@ -18,35 +18,35 @@ const categories = [
 const activities = [
   {
     name: 'Belém Tower & Jerónimos Monastery', city: 'Lisbon', category: 'Culture & History',
-    duration: '3h', price: '$18', rating: 4.9, reviews: 1420, emoji: '🏰', image: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?q=80&w=800&auto=format&fit=crop'
+    duration: '3h', price: '$18', rating: 4.9, reviews: 1420, emoji: '🏰', image: 'https://picsum.photos/seed/15558/800/600'
   },
   {
     name: 'Azulejo Tile Workshop', city: 'Lisbon', category: 'Culture',
-    duration: '3h', price: '$65', rating: 4.8, reviews: 876, emoji: '🎨', image: 'https://images.unsplash.com/photo-1542475017-ebdbbdf0e583?q=80&w=800&auto=format&fit=crop'
+    duration: '3h', price: '$65', rating: 4.8, reviews: 876, emoji: '🎨', image: 'https://picsum.photos/seed/15424/800/600'
   },
   {
     name: 'Food Market Tasting Tour', city: 'Lisbon', category: 'Food & Dining',
-    duration: '2.5h', price: '$55', rating: 4.9, reviews: 2103, emoji: '🥟', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop'
+    duration: '2.5h', price: '$55', rating: 4.9, reviews: 2103, emoji: '🥟', image: 'https://picsum.photos/seed/15559/800/600'
   },
   {
     name: 'Sunset Sail on the Tagus', city: 'Lisbon', category: 'Adventure',
-    duration: '2h', price: '$45', rating: 4.7, reviews: 654, emoji: '⛵', image: 'https://images.unsplash.com/photo-1500839216016-01582e3089d3?q=80&w=800&auto=format&fit=crop'
+    duration: '2h', price: '$45', rating: 4.7, reviews: 654, emoji: '⛵', image: 'https://picsum.photos/seed/15008/800/600'
   },
   {
     name: 'Pena Palace Visit', city: 'Sintra', category: 'Culture & History',
-    duration: '2.5h', price: '$22', rating: 4.8, reviews: 3421, emoji: '🏯', image: 'https://images.unsplash.com/photo-1544414603-9bb6da0d4b85?q=80&w=800&auto=format&fit=crop'
+    duration: '2.5h', price: '$22', rating: 4.8, reviews: 3421, emoji: '🏯', image: 'https://picsum.photos/seed/15444/800/600'
   },
   {
     name: 'Historic Tram Ride (Line 28)', city: 'Lisbon', category: 'Culture',
-    duration: '1h', price: '$15', rating: 4.6, reviews: 892, emoji: '🚃', image: 'https://images.unsplash.com/photo-1516008775432-8dfdf16110f0?q=80&w=800&auto=format&fit=crop'
+    duration: '1h', price: '$15', rating: 4.6, reviews: 892, emoji: '🚃', image: 'https://picsum.photos/seed/15160/800/600'
   },
   {
     name: 'Bica Funicular Ride', city: 'Lisbon', category: 'Culture',
-    duration: '30min', price: '$4', rating: 4.5, reviews: 445, emoji: '🚡', image: 'https://images.unsplash.com/photo-1582236522501-c8524317f254?q=80&w=800&auto=format&fit=crop'
+    duration: '30min', price: '$4', rating: 4.5, reviews: 445, emoji: '🚡', image: 'https://picsum.photos/seed/15822/800/600'
   },
   {
     name: 'Portuguese Cooking Class', city: 'Lisbon', category: 'Food & Dining',
-    duration: '4h', price: '$95', rating: 4.9, reviews: 312, emoji: '👨‍🍳', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=800&auto=format&fit=crop'
+    duration: '4h', price: '$95', rating: 4.9, reviews: 312, emoji: '👨‍🍳', image: 'https://picsum.photos/seed/15569/800/600'
   },
 ]
 

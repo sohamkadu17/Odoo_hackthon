@@ -39,18 +39,18 @@ const features = [
 ]
 
 const destinations = [
-  { name: 'Lisbon', country: 'Portugal', rating: 4.9, trips: 342, emoji: '🏰', image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Kyoto', country: 'Japan', rating: 4.8, trips: 298, emoji: '⛩️', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Copenhagen', country: 'Denmark', rating: 4.7, trips: 215, emoji: '🧜', image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Santorini', country: 'Greece', rating: 4.9, trips: 387, emoji: '🌊', image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Montreal', country: 'Canada', rating: 4.6, trips: 178, emoji: '🍁', image: 'https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Cape Town', country: 'South Africa', rating: 4.8, trips: 203, emoji: '🦁', image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Lisbon', country: 'Portugal', rating: 4.9, trips: 342, emoji: '🏰', image: 'https://picsum.photos/seed/15487/800/600' },
+  { name: 'Kyoto', country: 'Japan', rating: 4.8, trips: 298, emoji: '⛩️', image: 'https://picsum.photos/seed/14939/800/600' },
+  { name: 'Copenhagen', country: 'Denmark', rating: 4.7, trips: 215, emoji: '🧜', image: 'https://picsum.photos/seed/15136/800/600' },
+  { name: 'Santorini', country: 'Greece', rating: 4.9, trips: 387, emoji: '🌊', image: 'https://picsum.photos/seed/16133/800/600' },
+  { name: 'Montreal', country: 'Canada', rating: 4.6, trips: 178, emoji: '🍁', image: 'https://picsum.photos/seed/15595/800/600' },
+  { name: 'Cape Town', country: 'South Africa', rating: 4.8, trips: 203, emoji: '🦁', image: 'https://picsum.photos/seed/15800/800/600' },
 ]
 
 const recentTrips = [
-  { name: 'Nordic Studio', dates: 'Jul 2 – 11', cities: 'Copenhagen · Oslo', status: 'Upcoming', image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Lisbon Loop', dates: 'Jun 12 – 18', cities: 'Lisbon · Sintra · Cascais', status: 'Draft', image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Desert Weekender', dates: 'Aug 23 – 25', cities: 'Phoenix · Sedona', status: 'Shared', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Nordic Studio', dates: 'Jul 2 – 11', cities: 'Copenhagen · Oslo', status: 'Upcoming', image: 'https://picsum.photos/seed/15136/800/600' },
+  { name: 'Lisbon Loop', dates: 'Jun 12 – 18', cities: 'Lisbon · Sintra · Cascais', status: 'Draft', image: 'https://picsum.photos/seed/15487/800/600' },
+  { name: 'Desert Weekender', dates: 'Aug 23 – 25', cities: 'Phoenix · Sedona', status: 'Shared', image: 'https://picsum.photos/seed/14698/800/600' },
 ]
 
 const statusColors: Record<string, string> = {
@@ -97,7 +97,7 @@ function HomePage() {
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
       >
         <img 
-          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop"
+          src="https://picsum.photos/seed/14648/800/600"
           alt="Mountains hero"
           className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-[4s] group-hover:scale-105"
         />

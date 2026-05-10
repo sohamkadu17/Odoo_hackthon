@@ -8,7 +8,9 @@ import {
   Lightbulb,
   Search,
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import WireCard from '../components/WireCard'
@@ -29,6 +31,38 @@ const suggestions = [
 ]
 
 function CreateTripPage() {
+  const navigate = useNavigate()
+  const [name, setName] = useState('')
+  const [travelers, setTravelers] = useState('1')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [budget, setBudget] = useState('')
+
+  const handleCreateTrip = () => {
+    if (!name || !startDate || !endDate) {
+      toast.error('Please enter trip name and dates')
+      return
+    }
+
+    const newTrip = {
+      name,
+      dates: `${new Date(startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} – ${new Date(endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+      status: 'Planning',
+      tone: 'green',
+      cities: ['New Destination'],
+      travelers: parseInt(travelers) || 1,
+      cover: '🌍',
+      budget: budget ? `$${budget}` : 'TBD',
+      image: `https://picsum.photos/seed/${Math.random().toString(36).substring(7)}/800/600`,
+    }
+
+    const existingTrips = JSON.parse(localStorage.getItem('traveloop_custom_trips') || '[]')
+    localStorage.setItem('traveloop_custom_trips', JSON.stringify([newTrip, ...existingTrips]))
+    
+    toast.success('Trip created successfully!')
+    navigate('/trips')
+  }
+
   return (
     <PageShell
       title="Plan a New Trip"
@@ -42,17 +76,23 @@ function CreateTripPage() {
             <label className="mb-1.5 block text-sm font-medium text-gray-700">Trip name</label>
             <input
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Nordic Summer 2026"
               className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
           <div>
             <label className="mb-1.5 block text-sm font-medium text-gray-700">Number of travelers</label>
-            <select className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
-              <option>1 traveler</option>
-              <option>2 travelers</option>
-              <option>3–5 travelers</option>
-              <option>6+ travelers</option>
+            <select 
+              value={travelers}
+              onChange={(e) => setTravelers(e.target.value)}
+              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            >
+              <option value="1">1 traveler</option>
+              <option value="2">2 travelers</option>
+              <option value="4">3–5 travelers</option>
+              <option value="6">6+ travelers</option>
             </select>
           </div>
           <div>
@@ -61,6 +101,8 @@ function CreateTripPage() {
               <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <input
                 type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
                 className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-9 pr-4 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
             </div>
@@ -71,6 +113,8 @@ function CreateTripPage() {
               <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <input
                 type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
                 className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-9 pr-4 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
             </div>
@@ -81,6 +125,8 @@ function CreateTripPage() {
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">$</span>
               <input
                 type="number"
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
                 placeholder="0.00"
                 className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-8 pr-4 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
               />
@@ -109,7 +155,7 @@ function CreateTripPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.05, duration: 0.3 }}
-              className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-blue-300 hover:bg-blue-50 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
+              className="group flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 transition-all hover:border-blue-300 hover:bg-blue-50 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"
             >
               <input type="checkbox" className="sr-only" />
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 text-xl shrink-0">
@@ -135,7 +181,10 @@ function CreateTripPage() {
           ))}
         </div>
 
-        <button className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700">
+        <button 
+          className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+          onClick={() => toast('Custom destination feature coming soon!', { icon: '✈️' })}
+        >
           <Plus className="h-4 w-4" />
           Add custom destination
         </button>
@@ -164,9 +213,11 @@ function CreateTripPage() {
                 <p className="text-sm font-medium text-gray-900 leading-snug">{s.text}</p>
                 <p className="mt-0.5 text-xs font-semibold text-blue-600">{s.budget}</p>
               </div>
-              <Button variant="secondary" size="sm" iconRight={<ChevronRight className="h-3.5 w-3.5" />}>
-                Use
-              </Button>
+              <Link to="/itinerary/builder">
+                <Button variant="secondary" size="sm" iconRight={<ChevronRight className="h-3.5 w-3.5" />}>
+                  Use
+                </Button>
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -181,12 +232,12 @@ function CreateTripPage() {
 
       {/* CTA */}
       <div className="flex justify-end gap-3">
-        <Button variant="secondary">Save as draft</Button>
-        <Link to="/itinerary/builder">
-          <Button variant="primary" icon={<Plane className="h-4 w-4" />}>
-            Start building itinerary
-          </Button>
-        </Link>
+        <Button variant="secondary" onClick={() => toast.success('Trip saved as draft!')}>
+          Save as draft
+        </Button>
+        <Button variant="primary" icon={<Plane className="h-4 w-4" />} onClick={handleCreateTrip}>
+          Start building itinerary
+        </Button>
       </div>
     </PageShell>
   )

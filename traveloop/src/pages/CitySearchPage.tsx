@@ -6,15 +6,15 @@ import PageShell from '../components/PageShell'
 import { fadeUpVariants } from '../utils/variants'
 
 const cities = [
-  { name: 'Lisbon', country: 'Portugal', rating: 4.9, trips: 342, tags: ['Culture', 'Food', 'History'], emoji: '🏰', trending: true, image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Kyoto', country: 'Japan', rating: 4.8, trips: 298, tags: ['Temples', 'Culture', 'Food'], emoji: '⛩️', trending: false, image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Copenhagen', country: 'Denmark', rating: 4.7, trips: 215, tags: ['Design', 'Food', 'Cycling'], emoji: '🧜', trending: true, image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Santorini', country: 'Greece', rating: 4.9, trips: 387, tags: ['Beaches', 'Romance', 'Views'], emoji: '🌊', trending: false, image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Montreal', country: 'Canada', rating: 4.6, trips: 178, tags: ['Food', 'Arts', 'Bilingual'], emoji: '🍁', trending: false, image: 'https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Cape Town', country: 'South Africa', rating: 4.8, trips: 203, tags: ['Nature', 'Wine', 'Adventure'], emoji: '🦁', trending: true, image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Seville', country: 'Spain', rating: 4.7, trips: 264, tags: ['Flamenco', 'Architecture', 'Tapas'], emoji: '💃', trending: false, image: 'https://images.unsplash.com/photo-1558642084-fd07fae5282e?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Chiang Mai', country: 'Thailand', rating: 4.6, trips: 192, tags: ['Temples', 'Food', 'Nature'], emoji: '🏯', trending: true, image: 'https://images.unsplash.com/photo-1598971868351-40e94bb5a9cb?q=80&w=800&auto=format&fit=crop' },
-  { name: 'Buenos Aires', country: 'Argentina', rating: 4.5, trips: 147, tags: ['Tango', 'Steak', 'Culture'], emoji: '🥩', trending: false, image: 'https://images.unsplash.com/photo-1589909202802-8f4aadce1849?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Lisbon', country: 'Portugal', rating: 4.9, trips: 342, tags: ['Culture', 'Food', 'History'], emoji: '🏰', trending: true, image: 'https://picsum.photos/seed/15487/800/600' },
+  { name: 'Kyoto', country: 'Japan', rating: 4.8, trips: 298, tags: ['Temples', 'Culture', 'Food'], emoji: '⛩️', trending: false, image: 'https://picsum.photos/seed/14939/800/600' },
+  { name: 'Copenhagen', country: 'Denmark', rating: 4.7, trips: 215, tags: ['Design', 'Food', 'Cycling'], emoji: '🧜', trending: true, image: 'https://picsum.photos/seed/15136/800/600' },
+  { name: 'Santorini', country: 'Greece', rating: 4.9, trips: 387, tags: ['Beaches', 'Romance', 'Views'], emoji: '🌊', trending: false, image: 'https://picsum.photos/seed/16133/800/600' },
+  { name: 'Montreal', country: 'Canada', rating: 4.6, trips: 178, tags: ['Food', 'Arts', 'Bilingual'], emoji: '🍁', trending: false, image: 'https://picsum.photos/seed/15595/800/600' },
+  { name: 'Cape Town', country: 'South Africa', rating: 4.8, trips: 203, tags: ['Nature', 'Wine', 'Adventure'], emoji: '🦁', trending: true, image: 'https://picsum.photos/seed/15800/800/600' },
+  { name: 'Seville', country: 'Spain', rating: 4.7, trips: 264, tags: ['Flamenco', 'Architecture', 'Tapas'], emoji: '💃', trending: false, image: 'https://picsum.photos/seed/15586/800/600' },
+  { name: 'Chiang Mai', country: 'Thailand', rating: 4.6, trips: 192, tags: ['Temples', 'Food', 'Nature'], emoji: '🏯', trending: true, image: 'https://picsum.photos/seed/15989/800/600' },
+  { name: 'Buenos Aires', country: 'Argentina', rating: 4.5, trips: 147, tags: ['Tango', 'Steak', 'Culture'], emoji: '🥩', trending: false, image: 'https://picsum.photos/seed/15899/800/600' },
 ]
 
 const itemVariants = fadeUpVariants

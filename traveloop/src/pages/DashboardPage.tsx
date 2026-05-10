@@ -4,7 +4,6 @@ import {
   Map,
   Calendar,
   TrendingUp,
-  Sun,
   Users,
   Plus,
   CheckCircle2,
@@ -27,6 +26,7 @@ const statCards = [
 
 type BadgeTone = 'amber' | 'blue' | 'cyan' | 'green'
 
+<<<<<<< HEAD
 type Trip = {
   id: string
   name: string
@@ -36,6 +36,40 @@ type Trip = {
   coverPhoto?: string
   TripStops?: any[]
 }
+=======
+const upcomingTrips = [
+  {
+    name: 'Lisbon Loop',
+    dates: 'Jun 12 – Jun 18',
+    status: 'Draft',
+    tone: 'amber' as BadgeTone,
+    cities: 'Lisbon, Sintra, Cascais',
+    travelers: '4',
+    daysLeft: 33,
+    image: 'https://picsum.photos/seed/15487/800/600',
+  },
+  {
+    name: 'Nordic Studio',
+    dates: 'Jul 02 – Jul 11',
+    status: 'Booked',
+    tone: 'blue' as BadgeTone,
+    cities: 'Copenhagen, Oslo',
+    travelers: '2',
+    daysLeft: 53,
+    image: 'https://picsum.photos/seed/15136/800/600',
+  },
+  {
+    name: 'Desert Weekender',
+    dates: 'Aug 23 – Aug 25',
+    status: 'Shared',
+    tone: 'cyan' as BadgeTone,
+    cities: 'Phoenix, Sedona',
+    travelers: '5',
+    daysLeft: 105,
+    image: 'https://picsum.photos/seed/14698/800/600',
+  },
+]
+>>>>>>> 52e1555aacf4485bcfb53eef41a45e0c50d4f128
 
 const focusTasks = [
   { text: 'Confirm boutique stay in Alfama', done: false },
@@ -137,7 +171,7 @@ function DashboardPage() {
             className="group relative mb-8 h-64 w-full overflow-hidden rounded-3xl shadow-md"
           >
              <img 
-               src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=2000&auto=format&fit=crop" 
+               src="https://picsum.photos/seed/15069/800/600" 
                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[4s] group-hover:scale-105" 
                alt="Tropical beach scene"
              />
@@ -147,14 +181,14 @@ function DashboardPage() {
                    Welcome back, Explorer.
                 </h1>
                 <p className="text-stone-300 text-lg font-medium">
-                   You have 3 upcoming adventures. The world is waiting.
+                   You have {trips.length} upcoming adventures. The world is waiting.
                 </p>
              </div>
           </motion.div>
 
           {/* Stats row */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((stat) => {
+        {stats.map((stat) => {
           const Icon = stat.icon
           return (
             <TiltCard key={stat.label}>
@@ -190,44 +224,51 @@ function DashboardPage() {
           }
         >
           <div className="space-y-4">
-            {upcomingTrips.map((trip) => (
-              <div
-                key={trip.name}
-                className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-5 pb-5 pt-20 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1 sm:h-[180px] sm:pt-0"
-              >
-                <img 
-                  src={trip.image} 
-                  className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-[3s] group-hover:opacity-90 group-hover:scale-110" 
-                  alt={trip.name}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/95 via-stone-900/40 to-transparent mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
-                
-                <div className="relative z-10 w-full">
-                  <div className="flex w-full items-end justify-between">
-                    <div>
-                      <Badge tone={trip.tone} className="mb-2 border-none bg-white/20 text-white backdrop-blur-md">
-                        {trip.status}
-                      </Badge>
-                      <h3 className="text-xl font-bold tracking-tight text-white mb-0.5">{trip.name}</h3>
-                      <p className="text-sm font-medium text-stone-300">
-                        {trip.dates} · {trip.cities}
-                      </p>
-                    </div>
-                    <div className="flex flex-col items-end gap-3 text-right">
-                      <span className="rounded-full bg-blue-600/90 px-3 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm">
-                        {trip.daysLeft}d away
-                      </span>
-                      <div className="flex -space-x-2">
-                        {[...Array(Number(trip.travelers))].map((_, idx) => (
-                          <img key={idx} src={`https://i.pravatar.cc/150?img=${idx + Math.floor(Math.random() * 40)}`} alt="Traveler avatar" loading="lazy" className="h-8 w-8 rounded-full border-2 border-stone-800 bg-stone-300 shadow-sm object-cover" />
-                        ))}
+            {trips.length === 0 ? (
+              <div className="flex h-40 items-center justify-center text-sm text-gray-400">No trips yet. Create your first trip!</div>
+            ) : (
+              trips.slice(0, 3).map((trip) => {
+                const cities = trip.TripStops?.map((s: any) => s.City?.name).filter(Boolean).join(', ') || 'Various cities'
+                const startDateStr = new Date(trip.startDate).toLocaleDateString()
+                const endDateStr = new Date(trip.endDate).toLocaleDateString()
+                const daysLeft = Math.max(0, Math.ceil((new Date(trip.startDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))
+                return (
+                  <div
+                    key={trip.id}
+                    className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-5 pb-5 pt-20 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1 sm:h-[180px] sm:pt-0"
+                  >
+                    {trip.coverPhoto && (
+                      <img 
+                        src={trip.coverPhoto} 
+                        className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-[3s] group-hover:opacity-90 group-hover:scale-110" 
+                        alt={trip.name}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/95 via-stone-900/40 to-transparent mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
+                    
+                    <div className="relative z-10 w-full">
+                      <div className="flex w-full items-end justify-between">
+                        <div>
+                          <Badge tone={trip.isPublic ? 'blue' : 'gray'} className="mb-2 border-none bg-white/20 text-white backdrop-blur-md">
+                            {trip.isPublic ? 'Shared' : 'Private'}
+                          </Badge>
+                          <h3 className="text-xl font-bold tracking-tight text-white mb-0.5">{trip.name}</h3>
+                          <p className="text-sm font-medium text-stone-300">
+                            {startDateStr} – {endDateStr} · {cities}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-3 text-right">
+                          <span className="rounded-full bg-blue-600/90 px-3 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm">
+                            {daysLeft > 0 ? `${daysLeft}d away` : 'Past'}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                )
+              })
+            )}
           </div>
         </WireCard>
 
