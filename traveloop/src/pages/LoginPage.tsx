@@ -88,6 +88,7 @@ export default function LoginPage() {
           {/* Background Image & Overlay */}
           <div className="absolute inset-0">
             <img 
+            loading="lazy"
               src={BG_URL} 
               alt="Travel Background" 
               className="h-full w-full object-cover" 

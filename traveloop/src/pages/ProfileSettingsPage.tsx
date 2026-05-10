@@ -119,13 +119,12 @@ function ProfileSettingsPage() {
               <WireCard title="Profile Photo">
                 <div className="flex items-center gap-5">
                   <div className="relative">
-                    {photoPreview ? (
-                      <img src={photoPreview} alt="Profile" className="h-20 w-20 rounded-2xl object-cover shadow-md" />
-                    ) : (
-                      <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
-                        {avatarLetter}
-                      </div>
-                    )}
+                    <img 
+                      src={photoPreview || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"} 
+                      alt="Profile" 
+                      loading="lazy"
+                      className="h-20 w-20 rounded-2xl object-cover shadow-md border border-gray-200" 
+                    />
                     <label
                       htmlFor="photo-upload"
                       className="absolute -bottom-1 -right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 border-white bg-blue-600 text-white transition hover:bg-blue-700"

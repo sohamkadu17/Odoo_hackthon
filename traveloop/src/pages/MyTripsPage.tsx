@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Plane, Map, Plus, Search, ArrowRight, Calendar, Users } from 'lucide-react'
+import { Plane, Map, Plus, Search, ArrowRight, Calendar } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
@@ -150,6 +150,7 @@ function MyTripsPage() {
             {/* Card cover */}
             <div className="relative h-44 w-full overflow-hidden">
               <img 
+                loading="lazy"
                 src={trip.image} 
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-110" 
                 alt={trip.name} 

@@ -97,9 +97,9 @@ function HomePage() {
         <img 
           src="https://picsum.photos/seed/14648/800/600"
           alt="Mountains hero"
-          className="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-overlay transition-transform duration-[4s] group-hover:scale-105"
+          className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-[4s] group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/50 to-transparent" />
         
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-20 mix-blend-screen pointer-events-none">
@@ -245,7 +245,7 @@ function HomePage() {
               className="group cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="relative h-32 w-full overflow-hidden">
-                 <img src={dest.image} alt={dest.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                 <img src={dest.image} alt={dest.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
                  <div className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-xl shadow-sm">
                    {dest.emoji}
@@ -289,7 +289,7 @@ function HomePage() {
             >
               <div className="flex items-center gap-4">
                 <div className="relative h-14 w-14 overflow-hidden rounded-xl">
-                  <img src={trip.image} alt={trip.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <img src={trip.image} alt={trip.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900">{trip.name}</p>
