@@ -5,6 +5,7 @@ import AdminAnalyticsPage from './pages/AdminAnalyticsPage'
 import CitySearchPage from './pages/CitySearchPage'
 import CreateTripPage from './pages/CreateTripPage'
 import DashboardPage from './pages/DashboardPage'
+import HomePage from './pages/HomePage'
 import ItineraryBuilderPage from './pages/ItineraryBuilderPage'
 import ItineraryViewPage from './pages/ItineraryViewPage'
 import LoginPage from './pages/LoginPage'
@@ -18,11 +19,13 @@ import TripNotesPage from './pages/TripNotesPage'
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-gray-50">
         <NavBar />
-        <main className="mx-auto w-full max-w-6xl px-6 py-8">
+        <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 md:py-8">
           <Routes>
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/trips/new" element={<CreateTripPage />} />
             <Route path="/trips" element={<MyTripsPage />} />

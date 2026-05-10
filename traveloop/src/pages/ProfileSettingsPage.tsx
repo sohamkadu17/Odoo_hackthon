@@ -1,89 +1,173 @@
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { User, Mail, Bell, Shield, Globe, Camera, Save, LogOut } from 'lucide-react'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import WireCard from '../components/WireCard'
 
-const savedDestinations = ['Lisbon', 'Copenhagen', 'Kyoto', 'Mexico City']
+const sections = [
+  { id: 'profile', label: 'Profile', icon: User },
+  { id: 'notifications', label: 'Notifications', icon: Bell },
+  { id: 'privacy', label: 'Privacy', icon: Shield },
+  { id: 'preferences', label: 'Preferences', icon: Globe },
+]
 
 function ProfileSettingsPage() {
+  const [activeSection, setActiveSection] = useState('profile')
+
   return (
     <PageShell
-      title="Profile and Settings"
-      subtitle="Update personal info, preferences, and privacy controls."
-      actions={<Button>Save changes</Button>}
+      title="Profile & Settings"
+      eyebrow="Account"
+      subtitle="Manage your personal information, preferences, and account settings."
     >
-      <div className="grid gap-6 lg:grid-cols-[1.1fr,0.9fr]">
-        <WireCard
-          title="Profile information"
-          description="Name, photo, email, and language preferences."
-        >
-          <form className="space-y-4">
-            <label className="block space-y-2 text-sm font-semibold text-slate-700">
-              Full name
-              <input
-                type="text"
-                placeholder="Avery Chen"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
-              />
-            </label>
-            <label className="block space-y-2 text-sm font-semibold text-slate-700">
-              Email
-              <input
-                type="email"
-                placeholder="avery@traveloop.com"
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200"
-              />
-            </label>
-            <label className="block space-y-2 text-sm font-semibold text-slate-700">
-              Preferred language
-              <select className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-200">
-                <option>English</option>
-                <option>Spanish</option>
-                <option>French</option>
-              </select>
-            </label>
-          </form>
-        </WireCard>
-        <div className="space-y-6">
-          <WireCard
-            title="Preferences"
-            description="Budget alerts and notification settings."
-            variant="soft"
-          >
-            <div className="space-y-3 text-sm text-slate-600">
-              <label className="flex items-center justify-between rounded-xl border border-slate-100 bg-white px-3 py-2">
-                <span>Weekly budget summary</span>
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="h-4 w-4 rounded border-slate-300 text-emerald-600"
-                />
-              </label>
-              <label className="flex items-center justify-between rounded-xl border border-slate-100 bg-white px-3 py-2">
-                <span>New itinerary share alerts</span>
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-slate-300 text-emerald-600"
-                />
-              </label>
-            </div>
-          </WireCard>
-          <WireCard
-            title="Saved destinations"
-            description="Favorites and frequently searched cities."
-            variant="dashed"
-          >
-            <div className="flex flex-wrap gap-2">
-              {savedDestinations.map((city) => (
-                <span
-                  key={city}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600"
+      <div className="grid gap-6 lg:grid-cols-[220px,1fr]">
+        {/* Sidebar nav */}
+        <aside className="space-y-1">
+          <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
+            {sections.map((section) => {
+              const Icon = section.icon
+              return (
+                <button
+                  key={section.id}
+                  onClick={() => setActiveSection(section.id)}
+                  className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                    activeSection === section.id
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
-                  {city}
-                </span>
-              ))}
-            </div>
-          </WireCard>
-        </div>
+                  <Icon className="h-4 w-4" strokeWidth={2} />
+                  {section.label}
+                </button>
+              )
+            })}
+          </div>
+
+          <Button variant="secondary" className="w-full mt-2" icon={<LogOut className="h-4 w-4 text-red-500" />}>
+            <span className="text-red-600">Sign out</span>
+          </Button>
+        </aside>
+
+        {/* Main content */}
+        <motion.div
+          key={activeSection}
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          className="space-y-5"
+        >
+          {activeSection === 'profile' && (
+            <>
+              {/* Avatar section */}
+              <WireCard title="Profile Photo">
+                <div className="flex items-center gap-5">
+                  <div className="relative">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
+                      A
+                    </div>
+                    <button className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 border-2 border-white text-white hover:bg-blue-700 transition">
+                      <Camera className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">Alex Jordan</p>
+                    <p className="text-xs text-gray-500">alex@email.com</p>
+                    <Button variant="secondary" size="sm" className="mt-2">
+                      Upload new photo
+                    </Button>
+                  </div>
+                </div>
+              </WireCard>
+
+              {/* Personal info */}
+              <WireCard title="Personal Information">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">First name</label>
+                    <input
+                      type="text"
+                      defaultValue="Alex"
+                      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">Last name</label>
+                    <input
+                      type="text"
+                      defaultValue="Jordan"
+                      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                      <Mail className="inline mr-1 h-3.5 w-3.5" />
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      defaultValue="alex@email.com"
+                      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">Phone</label>
+                    <input
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">Home city</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. New York, USA"
+                      className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">Passport nationality</label>
+                    <select className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+                      <option>United States</option>
+                      <option>United Kingdom</option>
+                      <option>Canada</option>
+                      <option>Australia</option>
+                    </select>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">Bio (optional)</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Tell your crew a bit about your travel style…"
+                      className="w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                    />
+                  </div>
+                </div>
+              </WireCard>
+
+              {/* Save */}
+              <div className="flex justify-end gap-3">
+                <Button variant="secondary">Cancel</Button>
+                <Button variant="primary" icon={<Save className="h-4 w-4" />}>
+                  Save changes
+                </Button>
+              </div>
+            </>
+          )}
+
+          {activeSection !== 'profile' && (
+            <WireCard
+              title={sections.find((s) => s.id === activeSection)?.label ?? ''}
+              description={`Manage your ${activeSection} settings here.`}
+              variant="dashed"
+            >
+              <div className="flex h-40 items-center justify-center">
+                <p className="text-sm text-gray-400">Settings coming soon.</p>
+              </div>
+            </WireCard>
+          )}
+        </motion.div>
       </div>
     </PageShell>
   )
