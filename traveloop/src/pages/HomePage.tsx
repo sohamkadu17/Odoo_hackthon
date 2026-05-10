@@ -37,18 +37,18 @@ const features = [
 ]
 
 const destinations = [
-  { name: 'Lisbon', country: 'Portugal', rating: 4.9, trips: 342, emoji: '🏰' },
-  { name: 'Kyoto', country: 'Japan', rating: 4.8, trips: 298, emoji: '⛩️' },
-  { name: 'Copenhagen', country: 'Denmark', rating: 4.7, trips: 215, emoji: '🧜' },
-  { name: 'Santorini', country: 'Greece', rating: 4.9, trips: 387, emoji: '🌊' },
-  { name: 'Montreal', country: 'Canada', rating: 4.6, trips: 178, emoji: '🍁' },
-  { name: 'Cape Town', country: 'South Africa', rating: 4.8, trips: 203, emoji: '🦁' },
+  { name: 'Lisbon', country: 'Portugal', rating: 4.9, trips: 342, emoji: '🏰', image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Kyoto', country: 'Japan', rating: 4.8, trips: 298, emoji: '⛩️', image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Copenhagen', country: 'Denmark', rating: 4.7, trips: 215, emoji: '🧜', image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Santorini', country: 'Greece', rating: 4.9, trips: 387, emoji: '🌊', image: 'https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Montreal', country: 'Canada', rating: 4.6, trips: 178, emoji: '🍁', image: 'https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Cape Town', country: 'South Africa', rating: 4.8, trips: 203, emoji: '🦁', image: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?q=80&w=800&auto=format&fit=crop' },
 ]
 
 const recentTrips = [
-  { name: 'Nordic Studio', dates: 'Jul 2 – 11', cities: 'Copenhagen · Oslo', status: 'Upcoming' },
-  { name: 'Lisbon Loop', dates: 'Jun 12 – 18', cities: 'Lisbon · Sintra · Cascais', status: 'Draft' },
-  { name: 'Desert Weekender', dates: 'Aug 23 – 25', cities: 'Phoenix · Sedona', status: 'Shared' },
+  { name: 'Nordic Studio', dates: 'Jul 2 – 11', cities: 'Copenhagen · Oslo', status: 'Upcoming', image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Lisbon Loop', dates: 'Jun 12 – 18', cities: 'Lisbon · Sintra · Cascais', status: 'Draft', image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Desert Weekender', dates: 'Aug 23 – 25', cities: 'Phoenix · Sedona', status: 'Shared', image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop' },
 ]
 
 const statusColors: Record<string, string> = {
@@ -89,14 +89,21 @@ function HomePage() {
     <div className="space-y-10">
       {/* Hero Section */}
       <motion.section
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-8 md:p-14"
+        className="group relative overflow-hidden rounded-3xl bg-gray-900 p-8 md:p-14"
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] as [number, number, number, number] }}
       >
+        <img 
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop"
+          alt="Mountains hero"
+          className="absolute inset-0 h-full w-full object-cover opacity-60 mix-blend-overlay transition-transform duration-[4s] group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/40 to-transparent" />
+        
         {/* Background decoration */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white blur-3xl" />
+        <div className="absolute inset-0 opacity-20 mix-blend-screen pointer-events-none">
+          <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-300 blur-3xl" />
           <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-cyan-300 blur-3xl" />
         </div>
         <div className="relative">
@@ -235,21 +242,25 @@ function HomePage() {
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="cursor-pointer rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="group cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             >
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 text-2xl">
-                  {dest.emoji}
-                </div>
+              <div className="relative h-32 w-full overflow-hidden">
+                 <img src={dest.image} alt={dest.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
+                 <div className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-xl shadow-sm">
+                   {dest.emoji}
+                 </div>
+              </div>
+              <div className="p-4">
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900">{dest.name}</h3>
                   <p className="text-sm text-gray-500">{dest.country}</p>
-                  <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">
-                    <span className="flex items-center gap-1">
-                      <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                  <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
+                    <span className="flex items-center gap-1 font-medium">
+                      <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                       {dest.rating}
                     </span>
-                    <span>{dest.trips} trips planned</span>
+                    <span className="bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full font-medium">{dest.trips} trips</span>
                   </div>
                 </div>
               </div>
@@ -274,11 +285,11 @@ function HomePage() {
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md"
+              className="group flex items-center justify-between overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-300 hover:shadow-md"
             >
               <div className="flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
-                  <Plane className="h-4 w-4" />
+                <div className="relative h-14 w-14 overflow-hidden rounded-xl">
+                  <img src={trip.image} alt={trip.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <div>
                   <p className="font-semibold text-gray-900">{trip.name}</p>
@@ -286,10 +297,12 @@ function HomePage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusColors[trip.status]}`}>
+                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusColors[trip.status]}`}>
                   {trip.status}
                 </span>
-                <ArrowRight className="h-4 w-4 text-gray-400" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-50 transition-colors group-hover:bg-blue-50">
+                   <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-blue-600" />
+                </div>
               </div>
             </motion.div>
           ))}

@@ -166,8 +166,23 @@ function TripNotesPage() {
 
       {filtered.length === 0 && (
         <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 py-16 text-center">
-          <FileText className="h-10 w-10 text-gray-300" />
-          <p className="mt-3 text-sm font-semibold text-gray-600">No notes found</p>
+          <motion.div 
+            animate={{ y: [0, -10, 0] }} 
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="mb-6 relative"
+          >
+            <div className="absolute inset-0 bg-blue-100 rounded-full blur-3xl opacity-50" />
+            <svg width="140" height="140" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+              <circle cx="100" cy="100" r="80" fill="#f1f5f9" />
+              <path d="M60 140C60 100 80 70 100 70C120 70 140 100 140 140V145C140 150.523 135.523 155 130 155H70C64.4772 155 60 150.523 60 145V140Z" fill="white" />
+              <path d="M140 140C140 145.523 135.523 150 130 150H70C64.4772 150 60 145.523 60 140V120C60 120 73.3333 130 100 130C126.667 130 140 120 140 120V140Z" fill="#e2e8f0" />
+              <circle cx="85" cy="105" r="6" fill="#94a3b8" />
+              <circle cx="115" cy="105" r="6" fill="#94a3b8" />
+              <path d="M95 120Q100 125 105 120" stroke="#94a3b8" strokeWidth="4" strokeLinecap="round" />
+              <path d="M120 60C125.523 60 130 64.4772 130 70V90H110V70C110 64.4772 114.477 60 120 60Z" fill="#bae6fd" transform="rotate(15 120 60)" />
+            </svg>
+          </motion.div>
+          <p className="text-base font-bold text-gray-800">It's a little quiet here...</p>
           <p className="mt-1 text-xs text-gray-400">Try a different search or category</p>
           <Button variant="primary" size="sm" className="mt-4" icon={<Plus className="h-4 w-4" />} onClick={() => toast.success('Added new note.')}>
             Create note

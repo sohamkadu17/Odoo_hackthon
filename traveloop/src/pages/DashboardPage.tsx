@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import {
   Plane,
   Map,
@@ -9,16 +10,15 @@ import {
   ArrowRight,
   Plus,
   CheckCircle2,
-  CloudRain,
-  Navigation,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
+import TiltCard from '../components/TiltCard'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
 import ProgressBar from '../components/ProgressBar'
 import WireCard from '../components/WireCard'
-import { fadeUpVariants } from '../utils/variants'
 
 const statCards = [
   { label: 'Active Trips', value: '3', icon: Map, color: 'text-blue-600', bg: 'bg-blue-50', trend: '+1 this month' },
@@ -38,6 +38,7 @@ const upcomingTrips = [
     cities: 'Lisbon, Sintra, Cascais',
     travelers: '4',
     daysLeft: 33,
+    image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop',
   },
   {
     name: 'Nordic Studio',
@@ -47,6 +48,7 @@ const upcomingTrips = [
     cities: 'Copenhagen, Oslo',
     travelers: '2',
     daysLeft: 53,
+    image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop',
   },
   {
     name: 'Desert Weekender',
@@ -56,6 +58,7 @@ const upcomingTrips = [
     cities: 'Phoenix, Sedona',
     travelers: '5',
     daysLeft: 105,
+    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop',
   },
 ]
 
@@ -79,9 +82,14 @@ const weather = [
   { city: 'Cascais', temp: '70°F', condition: 'Cloudy ⛅' },
 ]
 
-const itemVariants = fadeUpVariants
-
 function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 400)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <PageShell
       title="Dashboard"
@@ -100,30 +108,60 @@ function DashboardPage() {
         </>
       }
     >
-      {/* Stats row */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((stat, i) => {
+      {isLoading ? (
+        <div className="space-y-6 animate-pulse mt-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-gray-200 rounded-2xl" />)}
+          </div>
+          <div className="grid gap-6 md:grid-cols-[1.5fr,1fr]">
+            <div className="h-[400px] bg-gray-200 rounded-3xl" />
+            <div className="h-[400px] bg-gray-200 rounded-3xl" />
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Dashboard Hero Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="group relative mb-8 h-64 w-full overflow-hidden rounded-3xl shadow-md"
+          >
+             <img 
+               src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=2000&auto=format&fit=crop" 
+               className="absolute inset-0 h-full w-full object-cover transition-transform duration-[4s] group-hover:scale-105" 
+               alt="Tropical beach scene"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/30 to-transparent" />
+             <div className="absolute bottom-6 left-8 flex w-full max-w-2xl flex-col items-start gap-1">
+                <h1 className="text-3xl font-extrabold tracking-tight text-white mb-1">
+                   Welcome back, Explorer.
+                </h1>
+                <p className="text-stone-300 text-lg font-medium">
+                   You have 3 upcoming adventures. The world is waiting.
+                </p>
+             </div>
+          </motion.div>
+
+          {/* Stats row */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {statCards.map((stat) => {
           const Icon = stat.icon
           return (
-            <motion.div
-              key={stat.label}
-              custom={i}
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-medium text-gray-500">{stat.label}</p>
-                  <p className="mt-1 text-2xl font-bold text-gray-900">{stat.value}</p>
-                  <p className="mt-0.5 text-xs text-gray-400">{stat.trend}</p>
-                </div>
-                <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${stat.bg}`}>
-                  <Icon className={`h-5 w-5 ${stat.color}`} strokeWidth={2} />
+            <TiltCard key={stat.label}>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-500">{stat.label}</p>
+                    <p className="mt-1 text-2xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="mt-0.5 text-xs text-gray-400">{stat.trend}</p>
+                  </div>
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${stat.bg}`}>
+                    <Icon className={`h-5 w-5 ${stat.color}`} strokeWidth={2} />
+                  </div>
                 </div>
               </div>
-            </motion.div>
+            </TiltCard>
           )
         })}
       </div>
@@ -142,33 +180,42 @@ function DashboardPage() {
             </Link>
           }
         >
-          <div className="space-y-3">
+          <div className="space-y-4">
             {upcomingTrips.map((trip) => (
               <div
                 key={trip.name}
-                className="flex flex-col gap-3 rounded-xl border border-gray-100 bg-gray-50 px-4 py-3.5 transition-colors hover:bg-gray-100 sm:flex-row sm:items-center sm:justify-between"
+                className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-5 pb-5 pt-20 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1 sm:h-[180px] sm:pt-0"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shrink-0">
-                    <Plane className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="text-sm font-semibold text-gray-900">{trip.name}</p>
-                      <Badge tone={trip.tone}>{trip.status}</Badge>
+                <img 
+                  src={trip.image} 
+                  className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-[3s] group-hover:opacity-90 group-hover:scale-110" 
+                  alt={trip.name}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/95 via-stone-900/40 to-transparent mix-blend-multiply" />
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
+                
+                <div className="relative z-10 w-full">
+                  <div className="flex w-full items-end justify-between">
+                    <div>
+                      <Badge tone={trip.tone} className="mb-2 border-none bg-white/20 text-white backdrop-blur-md">
+                        {trip.status}
+                      </Badge>
+                      <h3 className="text-xl font-bold tracking-tight text-white mb-0.5">{trip.name}</h3>
+                      <p className="text-sm font-medium text-stone-300">
+                        {trip.dates} · {trip.cities}
+                      </p>
                     </div>
-                    <p className="text-xs text-gray-500">
-                      {trip.dates} · {trip.cities}
-                    </p>
+                    <div className="flex flex-col items-end gap-3 text-right">
+                      <span className="rounded-full bg-blue-600/90 px-3 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm">
+                        {trip.daysLeft}d away
+                      </span>
+                      <div className="flex -space-x-2">
+                        {[...Array(Number(trip.travelers))].map((_, idx) => (
+                          <img key={idx} src={`https://i.pravatar.cc/150?img=${idx + Math.floor(Math.random() * 40)}`} alt="Traveler avatar" className="h-8 w-8 rounded-full border-2 border-stone-800 bg-stone-300 shadow-sm object-cover" />
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3 shrink-0">
-                  <div className="flex items-center gap-1 text-xs text-gray-500">
-                    <Users className="h-3.5 w-3.5" />
-                    {trip.travelers}
-                  </div>
-                  <span className="text-xs font-medium text-blue-600">{trip.daysLeft}d away</span>
-                  <ArrowRight className="h-4 w-4 text-gray-400" />
                 </div>
               </div>
             ))}
@@ -276,7 +323,9 @@ function DashboardPage() {
             ))}
           </div>
         </WireCard>
-      </div>
+          </div>
+        </>
+      )}
     </PageShell>
   )
 }

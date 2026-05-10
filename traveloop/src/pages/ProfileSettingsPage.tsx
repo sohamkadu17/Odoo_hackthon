@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { User, Mail, Bell, Shield, Globe, Camera, Save, LogOut } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
@@ -47,7 +47,7 @@ function ProfileSettingsPage() {
   const avatarLetter = (currentUser?.firstName?.[0] || currentUser?.email?.[0] || 'T').toUpperCase()
   const [photoPreview, setPhotoPreview] = useState<string | null>(currentUser?.profilePhoto || null)
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
@@ -118,25 +118,28 @@ function ProfileSettingsPage() {
               {/* Avatar section */}
               <WireCard title="Profile Photo">
                 <div className="flex items-center gap-5">
-              <div className="relative">
-                {photoPreview ? (
-                  <img src={photoPreview} alt="Profile" className="h-20 w-20 rounded-2xl object-cover" />
-                ) : (
-                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
-                    {avatarLetter}
+                  <div className="relative">
+                    {photoPreview ? (
+                      <img src={photoPreview} alt="Profile" className="h-20 w-20 rounded-2xl object-cover shadow-md" />
+                    ) : (
+                      <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
+                        {avatarLetter}
+                      </div>
+                    )}
+                    <label
+                      htmlFor="photo-upload"
+                      className="absolute -bottom-1 -right-1 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border-2 border-white bg-blue-600 text-white transition hover:bg-blue-700"
+                    >
+                      <Camera className="h-3.5 w-3.5" />
+                    </label>
+                    <input
+                      id="photo-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoUpload}
+                      className="hidden"
+                    />
                   </div>
-                )}
-                <label htmlFor="photo-upload" className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 border-2 border-white text-white hover:bg-blue-700 transition cursor-pointer">
-                  <Camera className="h-3.5 w-3.5" />
-                </label>
-                <input
-                  id="photo-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoUpload}
-                  className="hidden"
-                />
-              </div>
                   <div>
                     <p className="text-sm font-semibold text-gray-900">{displayName}</p>
                     <p className="text-xs text-gray-500">{displayEmail}</p>
