@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
 import NavBar from './components/NavBar'
 import ActivitySearchPage from './pages/ActivitySearchPage'
-import AdminAnalyticsPage from './pages/AdminAnalyticsPage'
+import AnalysisPage from './pages/AnalysisPage'
 import CitySearchPage from './pages/CitySearchPage'
 import CreateTripPage from './pages/CreateTripPage'
 import DashboardPage from './pages/DashboardPage'
@@ -60,7 +60,7 @@ function App() {
             <Route path="/shared/:id" element={<SharedItineraryPage />} />
             <Route path="/profile" element={<ProfileSettingsPage />} />
             <Route path="/notes" element={<TripNotesPage />} />
-            <Route path="/admin" element={<AdminAnalyticsPage />} />
+            <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Route>
         </Routes>
