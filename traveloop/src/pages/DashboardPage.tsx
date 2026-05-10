@@ -26,7 +26,6 @@ const statCards = [
 
 type BadgeTone = 'amber' | 'blue' | 'cyan' | 'green'
 
-<<<<<<< HEAD
 type Trip = {
   id: string
   name: string
@@ -36,7 +35,7 @@ type Trip = {
   coverPhoto?: string
   TripStops?: any[]
 }
-=======
+
 const upcomingTrips = [
   {
     name: 'Lisbon Loop',
@@ -69,7 +68,6 @@ const upcomingTrips = [
     image: 'https://picsum.photos/seed/14698/800/600',
   },
 ]
->>>>>>> 52e1555aacf4485bcfb53eef41a45e0c50d4f128
 
 const focusTasks = [
   { text: 'Confirm boutique stay in Alfama', done: false },
