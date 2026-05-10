@@ -1,26 +1,379 @@
+import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import {
+  Map,
+  Calendar,
+  TrendingUp,
+  Users,
+  Plus,
+  CheckCircle2,
+} from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
+import TiltCard from '../components/TiltCard'
+import Badge from '../components/Badge'
+import Button from '../components/Button'
 import PageShell from '../components/PageShell'
+import ProgressBar from '../components/ProgressBar'
+import WireCard from '../components/WireCard'
+
+const statCards = [
+  { label: 'Active Trips', value: '3', icon: Map, color: 'text-blue-600', bg: 'bg-blue-50', trend: '+1 this month' },
+  { label: 'Days Planned', value: '24', icon: Calendar, color: 'text-indigo-600', bg: 'bg-indigo-50', trend: 'Across 3 trips' },
+  { label: 'Budget Used', value: '68%', icon: TrendingUp, color: 'text-cyan-600', bg: 'bg-cyan-50', trend: '$2,400 of $3,500' },
+  { label: 'Crew Members', value: '11', icon: Users, color: 'text-teal-600', bg: 'bg-teal-50', trend: 'Across all trips' },
+]
+
+type BadgeTone = 'amber' | 'blue' | 'cyan' | 'green'
+
+type Trip = {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  isPublic: boolean
+  coverPhoto?: string
+  TripStops?: any[]
+}
+
+const upcomingTrips = [
+  {
+    name: 'Lisbon Loop',
+    dates: 'Jun 12 – Jun 18',
+    status: 'Draft',
+    tone: 'amber' as BadgeTone,
+    cities: 'Lisbon, Sintra, Cascais',
+    travelers: '4',
+    daysLeft: 33,
+    image: 'https://picsum.photos/seed/15487/800/600',
+  },
+  {
+    name: 'Nordic Studio',
+    dates: 'Jul 02 – Jul 11',
+    status: 'Booked',
+    tone: 'blue' as BadgeTone,
+    cities: 'Copenhagen, Oslo',
+    travelers: '2',
+    daysLeft: 53,
+    image: 'https://picsum.photos/seed/15136/800/600',
+  },
+  {
+    name: 'Desert Weekender',
+    dates: 'Aug 23 – Aug 25',
+    status: 'Shared',
+    tone: 'cyan' as BadgeTone,
+    cities: 'Phoenix, Sedona',
+    travelers: '5',
+    daysLeft: 105,
+    image: 'https://picsum.photos/seed/14698/800/600',
+  },
+]
+
+const focusTasks = [
+  { text: 'Confirm boutique stay in Alfama', done: false },
+  { text: 'Add river tour to day 2', done: false },
+  { text: 'Lock airport transfer for group', done: false },
+  { text: 'Book travel insurance', done: true },
+]
+
+const budgetTargets = [
+  { label: 'Lodging', value: 72, tone: 'blue' as const },
+  { label: 'Dining', value: 48, tone: 'cyan' as const },
+  { label: 'Experiences', value: 61, tone: 'indigo' as const },
+  { label: 'Transport', value: 35, tone: 'green' as const },
+]
+
+const weather = [
+  { city: 'Lisbon', temp: '72°F', condition: 'Clear ☀️' },
+  { city: 'Sintra', temp: '68°F', condition: 'Windy 🌬️' },
+  { city: 'Cascais', temp: '70°F', condition: 'Cloudy ⛅' },
+]
 
 function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true)
+  const [trips, setTrips] = useState<Trip[]>([])
+  const [stats, setStats] = useState(statCards)
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      try {
+        const token = localStorage.getItem('traveloop_token')
+        const response = await fetch('http://localhost:5000/api/trips', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          const fetchedTrips = data.data || []
+          setTrips(fetchedTrips)
+          
+          let totalDays = 0
+          fetchedTrips.forEach((t: Trip) => {
+            const start = new Date(t.startDate)
+            const end = new Date(t.endDate)
+            totalDays += Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
+          })
+
+          setStats([
+            { label: 'Active Trips', value: fetchedTrips.length.toString(), icon: Map, color: 'text-blue-600', bg: 'bg-blue-50', trend: 'Total trips' },
+            { label: 'Days Planned', value: totalDays.toString(), icon: Calendar, color: 'text-indigo-600', bg: 'bg-indigo-50', trend: `Across ${fetchedTrips.length} trips` },
+            { label: 'Budget Used', value: 'N/A', icon: TrendingUp, color: 'text-cyan-600', bg: 'bg-cyan-50', trend: 'Coming soon' },
+            { label: 'Crew Members', value: '1', icon: Users, color: 'text-teal-600', bg: 'bg-teal-50', trend: 'Just you' },
+          ])
+        }
+      } catch (err) {
+        console.error('Failed to fetch trips:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTrips()
+  }, [])
+
   return (
     <PageShell
       title="Dashboard"
-      subtitle="Your home base for upcoming trips and inspiration."
-      actions={<button className="primary">Plan new trip</button>}
+      eyebrow="Traveloop"
+      subtitle="Your home base for upcoming trips, shared itineraries, and planning focus areas."
+      actions={
+        <>
+          <Button variant="secondary" size="md" icon={<Calendar className="h-4 w-4" />} onClick={() => toast.success('Calendar synced successfully!')}>
+            Sync calendar
+          </Button>
+          <Link to="/trips/new">
+            <Button variant="primary" size="md" icon={<Plus className="h-4 w-4" />}>
+              Plan new trip
+            </Button>
+          </Link>
+        </>
+      }
     >
-      <div className="placeholder-grid">
-        <div className="placeholder-card">
-          <h3>Recent trips</h3>
-          <p>Preview your latest itineraries and quick resume actions.</p>
+      {isLoading ? (
+        <div className="space-y-6 animate-pulse mt-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-gray-200 rounded-2xl" />)}
+          </div>
+          <div className="grid gap-6 md:grid-cols-[1.5fr,1fr]">
+            <div className="h-[400px] bg-gray-200 rounded-3xl" />
+            <div className="h-[400px] bg-gray-200 rounded-3xl" />
+          </div>
         </div>
-        <div className="placeholder-card">
-          <h3>Recommended cities</h3>
-          <p>Personalized suggestions based on saved preferences.</p>
-        </div>
-        <div className="placeholder-card">
-          <h3>Budget highlights</h3>
-          <p>Weekly spend snapshots and alerts for over-budget days.</p>
-        </div>
+      ) : (
+        <>
+          {/* Dashboard Hero Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="group relative mb-8 h-64 w-full overflow-hidden rounded-3xl shadow-md"
+          >
+             <img 
+               src="https://picsum.photos/seed/15069/800/600" 
+               className="absolute inset-0 h-full w-full object-cover transition-transform duration-[4s] group-hover:scale-105" 
+               alt="Tropical beach scene"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/30 to-transparent" />
+             <div className="absolute bottom-6 left-8 flex w-full max-w-2xl flex-col items-start gap-1">
+                <h1 className="text-3xl font-extrabold tracking-tight text-white mb-1">
+                   Welcome back, Explorer.
+                </h1>
+                <p className="text-stone-300 text-lg font-medium">
+                   You have {trips.length} upcoming adventures. The world is waiting.
+                </p>
+             </div>
+          </motion.div>
+
+          {/* Stats row */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon
+          return (
+            <TiltCard key={stat.label}>
+              <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-medium text-gray-500">{stat.label}</p>
+                    <p className="mt-1 text-2xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="mt-0.5 text-xs text-gray-400">{stat.trend}</p>
+                  </div>
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${stat.bg}`}>
+                    <Icon className={`h-5 w-5 ${stat.color}`} strokeWidth={2} />
+                  </div>
+                </div>
+              </div>
+            </TiltCard>
+          )
+        })}
       </div>
+
+      {/* Main content */}
+      <div className="grid gap-6 lg:grid-cols-[1.2fr,0.8fr]">
+        {/* Upcoming Trips */}
+        <WireCard
+          title="Upcoming Trips"
+          description="Trip status, cities, and who is traveling."
+          actions={
+            <Link to="/trips">
+              <Button variant="ghost" size="sm">
+                View all
+              </Button>
+            </Link>
+          }
+        >
+          <div className="space-y-4">
+            {trips.length === 0 ? (
+              <div className="flex h-40 items-center justify-center text-sm text-gray-400">No trips yet. Create your first trip!</div>
+            ) : (
+              trips.slice(0, 3).map((trip) => {
+                const cities = trip.TripStops?.map((s: any) => s.City?.name).filter(Boolean).join(', ') || 'Various cities'
+                const startDateStr = new Date(trip.startDate).toLocaleDateString()
+                const endDateStr = new Date(trip.endDate).toLocaleDateString()
+                const daysLeft = Math.max(0, Math.ceil((new Date(trip.startDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)))
+                return (
+                  <div
+                    key={trip.id}
+                    className="group relative flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-5 pb-5 pt-20 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1 sm:h-[180px] sm:pt-0"
+                  >
+                    {trip.coverPhoto && (
+                      <img 
+                        src={trip.coverPhoto} 
+                        className="absolute inset-0 h-full w-full object-cover opacity-70 transition-transform duration-[3s] group-hover:opacity-90 group-hover:scale-110" 
+                        alt={trip.name}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/95 via-stone-900/40 to-transparent mix-blend-multiply" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent" />
+                    
+                    <div className="relative z-10 w-full">
+                      <div className="flex w-full items-end justify-between">
+                        <div>
+                          <Badge tone={trip.isPublic ? 'blue' : 'gray'} className="mb-2 border-none bg-white/20 text-white backdrop-blur-md">
+                            {trip.isPublic ? 'Shared' : 'Private'}
+                          </Badge>
+                          <h3 className="text-xl font-bold tracking-tight text-white mb-0.5">{trip.name}</h3>
+                          <p className="text-sm font-medium text-stone-300">
+                            {startDateStr} – {endDateStr} · {cities}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-3 text-right">
+                          <span className="rounded-full bg-blue-600/90 px-3 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm">
+                            {daysLeft > 0 ? `${daysLeft}d away` : 'Past'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+        </WireCard>
+
+        {/* Today's Focus */}
+        <WireCard
+          title="Today's Focus"
+          description="Top actions to keep the next trip on track."
+          variant="soft"
+          actions={
+            <Link to="/itinerary/builder">
+              <Button variant="ghost" size="sm">
+                Open builder
+              </Button>
+            </Link>
+          }
+        >
+          <ul className="space-y-2">
+            {focusTasks.map((task) => (
+              <li
+                key={task.text}
+                className="flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-3.5 py-2.5 text-sm"
+              >
+                <CheckCircle2
+                  className={`h-4 w-4 shrink-0 ${task.done ? 'text-green-500' : 'text-gray-300'}`}
+                  strokeWidth={2.5}
+                />
+                <span className={task.done ? 'line-through text-gray-400' : 'text-gray-700'}>
+                  {task.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </WireCard>
+      </div>
+
+      {/* Bottom row */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Budget */}
+        <WireCard
+          title="Budget Snapshot"
+          description="Spend pacing across the active trip budget."
+        >
+          <div className="space-y-4">
+            {budgetTargets.map((budget) => (
+              <ProgressBar
+                key={budget.label}
+                label={budget.label}
+                value={budget.value}
+                tone={budget.tone}
+              />
+            ))}
+          </div>
+        </WireCard>
+
+        {/* Weather */}
+        <WireCard
+          title="Weather Watch"
+          description="Forecast for upcoming stops."
+          variant="dashed"
+          actions={
+            <Sun className="h-4 w-4 text-amber-500" />
+          }
+        >
+          <div className="space-y-2.5">
+            {weather.map((w) => (
+              <div
+                key={w.city}
+                className="flex items-center justify-between rounded-xl bg-white px-3.5 py-2.5 text-sm border border-gray-100"
+              >
+                <span className="font-medium text-gray-700">{w.city}</span>
+                <div className="text-right">
+                  <span className="font-semibold text-gray-900">{w.temp}</span>
+                  <span className="ml-2 text-gray-500">{w.condition}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </WireCard>
+
+        {/* Crew Pulse */}
+        <WireCard
+          title="Crew Pulse"
+          description="Latest check-ins from your travelers."
+          variant="soft"
+          actions={
+            <Users className="h-4 w-4 text-blue-500" />
+          }
+        >
+          <div className="space-y-2.5">
+            {[
+              { msg: '3 travelers confirmed dining preferences.', time: '2h ago' },
+              { msg: '1 traveler requested accessible transit.', time: '5h ago' },
+              { msg: 'Alex shared a hotel suggestion.', time: '1d ago' },
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="rounded-xl border border-gray-100 bg-white px-3.5 py-2.5 text-sm"
+              >
+                <p className="text-gray-700">{item.msg}</p>
+                <p className="mt-0.5 text-xs text-gray-400">{item.time}</p>
+              </div>
+            ))}
+          </div>
+        </WireCard>
+          </div>
+        </>
+      )}
     </PageShell>
   )
 }
