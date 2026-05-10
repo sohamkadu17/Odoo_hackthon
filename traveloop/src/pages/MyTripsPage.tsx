@@ -86,16 +86,17 @@ const getSafeImageSrc = (value: string, fallback: string) => {
     return fallback
   }
 
-  if (value.trim().toLowerCase().startsWith('javascript:')) {
-    return fallback
+  const baseOrigin = typeof window === 'undefined' ? 'https://example.com' : window.location.origin
+  const normalizedValue = value.trim()
+
+  if (/^data:image\/(png|jpe?g|gif|webp);base64,/i.test(normalizedValue)) {
+    return normalizedValue
   }
 
-  const baseOrigin = typeof window === 'undefined' ? 'https://example.com' : window.location.origin
-
   try {
-    const url = new URL(value, baseOrigin)
-    if (['http:', 'https:', 'data:'].includes(url.protocol)) {
-      return value
+    const url = new URL(normalizedValue, baseOrigin)
+    if (url.protocol === 'http:' || url.protocol === 'https:') {
+      return url.href
     }
   } catch {
     return fallback
