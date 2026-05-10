@@ -1,4 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes, Outlet } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, Outlet, Link } from 'react-router-dom'
+import { Plus } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
 import NavBar from './components/NavBar'
 import ActivitySearchPage from './pages/ActivitySearchPage'
@@ -20,11 +21,21 @@ import LandingPage from './pages/LandingPage'
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative pb-20 md:pb-0">
       <NavBar />
       <main className="mx-auto w-full max-w-7xl px-4 py-6 md:px-6 md:py-8">
         <Outlet />
       </main>
+
+      {/* Floating Action Button (Mobile Only) */}
+      <div className="fixed bottom-6 right-4 z-50 md:hidden">
+        <Link 
+          to="/trips/new" 
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-xl shadow-blue-500/40 transition-transform active:scale-95"
+        >
+          <Plus className="h-6 w-6" strokeWidth={2.5} />
+        </Link>
+      </div>
     </div>
   )
 }

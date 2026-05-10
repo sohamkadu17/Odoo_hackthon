@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import { Plane, Map, Plus, Search, ArrowRight, Calendar, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Badge from '../components/Badge'
@@ -74,6 +75,13 @@ const trips = [
 const itemVariants = fadeUpVariants
 
 function MyTripsPage() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 400)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <PageShell
       title="My Trips"
@@ -113,8 +121,14 @@ function MyTripsPage() {
         </div>
       </div>
 
-      {/* Trips grid */}
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {isLoading ? (
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 mt-8">
+          {[1,2,3,4].map(i => <div key={i} className="h-64 rounded-2xl bg-gray-200 animate-pulse border border-gray-100" />)}
+        </div>
+      ) : (
+        <>
+          {/* Trips grid */}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 mt-6">
         {trips.map((trip, i) => (
           <motion.div
             key={trip.name}
@@ -189,7 +203,9 @@ function MyTripsPage() {
             </Button>
           </Link>
         </motion.div>
-      </div>
+        </div>
+      </>
+      )}
     </PageShell>
   )
 }

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import {
   Plane,
   Map,
@@ -82,6 +83,13 @@ const weather = [
 const itemVariants = fadeUpVariants
 
 function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 400)
+    return () => clearTimeout(t)
+  }, [])
+
   return (
     <PageShell
       title="Dashboard"
@@ -100,8 +108,20 @@ function DashboardPage() {
         </>
       }
     >
-      {/* Stats row */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {isLoading ? (
+        <div className="space-y-6 animate-pulse mt-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-gray-200 rounded-2xl" />)}
+          </div>
+          <div className="grid gap-6 md:grid-cols-[1.5fr,1fr]">
+            <div className="h-[400px] bg-gray-200 rounded-3xl" />
+            <div className="h-[400px] bg-gray-200 rounded-3xl" />
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Stats row */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat, i) => {
           const Icon = stat.icon
           return (
@@ -276,7 +296,9 @@ function DashboardPage() {
             ))}
           </div>
         </WireCard>
-      </div>
+          </div>
+        </>
+      )}
     </PageShell>
   )
 }
