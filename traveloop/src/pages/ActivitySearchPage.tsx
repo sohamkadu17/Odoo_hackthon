@@ -188,6 +188,7 @@ function ActivitySearchPage() {
                 >
                   Add to itinerary
                 </Button>
+                </div>
               </motion.div>
             ))}
           </div>
