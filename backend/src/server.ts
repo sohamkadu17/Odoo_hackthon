@@ -5,7 +5,8 @@ import { QueryTypes } from 'sequelize';
 import sequelize from './config/database';
 import authRoutes from './routes/authRoutes';
 import tripRoutes from './routes/tripRoutes';
-import searchRoutes from './routes/searchRoutes';
+import searchRoutes from './routes/searchRoutes.js';
+import './models/index.js';
 
 dotenv.config();
 

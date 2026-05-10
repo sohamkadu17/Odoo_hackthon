@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import { Plane, Map, Plus, Search, ArrowRight, Calendar, Users } from 'lucide-react'
+import { Plane, Map, Plus, Search, ArrowRight, Calendar } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Badge from '../components/Badge'
 import Button from '../components/Button'
@@ -19,7 +19,7 @@ const trips = [
     travelers: 4,
     cover: '🏰',
     budget: '$3,200',
-    image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/15487/800/600',
   },
   {
     name: 'Nordic Studio',
@@ -30,7 +30,7 @@ const trips = [
     travelers: 2,
     cover: '🧜',
     budget: '$4,800',
-    image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/15136/800/600',
   },
   {
     name: 'Desert Weekender',
@@ -41,7 +41,7 @@ const trips = [
     travelers: 5,
     cover: '🌵',
     budget: '$1,800',
-    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/14698/800/600',
   },
   {
     name: 'Tokyo Immersion',
@@ -52,7 +52,7 @@ const trips = [
     travelers: 3,
     cover: '🌸',
     budget: '$6,500',
-    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/14939/800/600',
   },
   {
     name: 'Amalfi Coast Drive',
@@ -63,7 +63,7 @@ const trips = [
     travelers: 3,
     cover: '🌊',
     budget: '$4,100',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/15075/800/600',
   },
   {
     name: 'Montreal Food Week',
@@ -74,7 +74,7 @@ const trips = [
     travelers: 6,
     cover: '🏔️',
     budget: '$2,200',
-    image: 'https://images.unsplash.com/photo-1559511260-66a654ae982a?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/15595/800/600',
   },
 ]
 
@@ -82,8 +82,11 @@ const itemVariants = fadeUpVariants
 
 function MyTripsPage() {
   const [isLoading, setIsLoading] = useState(true)
+  const [allTrips, setAllTrips] = useState(trips)
 
   useEffect(() => {
+    const customTrips = JSON.parse(localStorage.getItem('traveloop_custom_trips') || '[]')
+    setAllTrips([...customTrips, ...trips])
     const t = setTimeout(() => setIsLoading(false), 400)
     return () => clearTimeout(t)
   }, [])
@@ -135,9 +138,9 @@ function MyTripsPage() {
         <>
           {/* Trips grid */}
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 mt-6">
-        {trips.map((trip, i) => (
+        {allTrips.map((trip, i) => (
           <motion.div
-            key={trip.name}
+            key={trip.name + i}
             custom={i}
             variants={itemVariants}
             initial="hidden"
@@ -147,6 +150,7 @@ function MyTripsPage() {
             {/* Card cover */}
             <div className="relative h-44 w-full overflow-hidden">
               <img 
+                loading="lazy"
                 src={trip.image} 
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-[2s] group-hover:scale-110" 
                 alt={trip.name} 
@@ -208,7 +212,7 @@ function MyTripsPage() {
 
         {/* Empty state / New trip card */}
         <motion.div
-          custom={trips.length}
+          custom={allTrips.length}
           variants={itemVariants}
           initial="hidden"
           animate="visible"

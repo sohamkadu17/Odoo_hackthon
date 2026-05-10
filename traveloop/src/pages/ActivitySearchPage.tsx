@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Search, Filter, Star, Clock, DollarSign, Plus, Tag } from 'lucide-react'
+import { Search, Filter, Star, Clock, Plus } from 'lucide-react'
 import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
 import PageShell from '../components/PageShell'
@@ -18,35 +18,35 @@ const categories = [
 const activities = [
   {
     name: 'Belém Tower & Jerónimos Monastery', city: 'Lisbon', category: 'Culture & History',
-    duration: '3h', price: '$18', rating: 4.9, reviews: 1420, emoji: '🏰', image: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?q=80&w=800&auto=format&fit=crop'
+    duration: '3h', price: '$18', rating: 4.9, reviews: 1420, emoji: '🏰', image: 'https://picsum.photos/seed/15558/800/600'
   },
   {
     name: 'Azulejo Tile Workshop', city: 'Lisbon', category: 'Culture',
-    duration: '3h', price: '$65', rating: 4.8, reviews: 876, emoji: '🎨', image: 'https://images.unsplash.com/photo-1542475017-ebdbbdf0e583?q=80&w=800&auto=format&fit=crop'
+    duration: '3h', price: '$65', rating: 4.8, reviews: 876, emoji: '🎨', image: 'https://picsum.photos/seed/15424/800/600'
   },
   {
     name: 'Food Market Tasting Tour', city: 'Lisbon', category: 'Food & Dining',
-    duration: '2.5h', price: '$55', rating: 4.9, reviews: 2103, emoji: '🥟', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=800&auto=format&fit=crop'
+    duration: '2.5h', price: '$55', rating: 4.9, reviews: 2103, emoji: '🥟', image: 'https://picsum.photos/seed/15559/800/600'
   },
   {
     name: 'Sunset Sail on the Tagus', city: 'Lisbon', category: 'Adventure',
-    duration: '2h', price: '$45', rating: 4.7, reviews: 654, emoji: '⛵', image: 'https://images.unsplash.com/photo-1500839216016-01582e3089d3?q=80&w=800&auto=format&fit=crop'
+    duration: '2h', price: '$45', rating: 4.7, reviews: 654, emoji: '⛵', image: 'https://picsum.photos/seed/15008/800/600'
   },
   {
     name: 'Pena Palace Visit', city: 'Sintra', category: 'Culture & History',
-    duration: '2.5h', price: '$22', rating: 4.8, reviews: 3421, emoji: '🏯', image: 'https://images.unsplash.com/photo-1544414603-9bb6da0d4b85?q=80&w=800&auto=format&fit=crop'
+    duration: '2.5h', price: '$22', rating: 4.8, reviews: 3421, emoji: '🏯', image: 'https://picsum.photos/seed/15444/800/600'
   },
   {
     name: 'Historic Tram Ride (Line 28)', city: 'Lisbon', category: 'Culture',
-    duration: '1h', price: '$15', rating: 4.6, reviews: 892, emoji: '🚃', image: 'https://images.unsplash.com/photo-1516008775432-8dfdf16110f0?q=80&w=800&auto=format&fit=crop'
+    duration: '1h', price: '$15', rating: 4.6, reviews: 892, emoji: '🚃', image: 'https://picsum.photos/seed/15160/800/600'
   },
   {
     name: 'Bica Funicular Ride', city: 'Lisbon', category: 'Culture',
-    duration: '30min', price: '$4', rating: 4.5, reviews: 445, emoji: '🚡', image: 'https://images.unsplash.com/photo-1582236522501-c8524317f254?q=80&w=800&auto=format&fit=crop'
+    duration: '30min', price: '$4', rating: 4.5, reviews: 445, emoji: '🚡', image: 'https://picsum.photos/seed/15822/800/600'
   },
   {
     name: 'Portuguese Cooking Class', city: 'Lisbon', category: 'Food & Dining',
-    duration: '4h', price: '$95', rating: 4.9, reviews: 312, emoji: '👨‍🍳', image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=800&auto=format&fit=crop'
+    duration: '4h', price: '$95', rating: 4.9, reviews: 312, emoji: '👨‍🍳', image: 'https://picsum.photos/seed/15569/800/600'
   },
 ]
 
@@ -153,7 +153,7 @@ function ActivitySearchPage() {
                 className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="relative h-40 w-full overflow-hidden">
-                  <img src={act.image} alt={act.name} className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <img src={act.image} alt={act.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
                   <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-lg bg-white/90 backdrop-blur-md px-2.5 py-1 text-xs font-bold text-gray-900 shadow-sm">
                     {act.emoji} {act.category}
