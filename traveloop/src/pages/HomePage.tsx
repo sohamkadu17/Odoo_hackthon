@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plane, Globe, Wallet, Users, Shield, ArrowRight, Star, MapPin } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { Spotlight } from '../components/ui/Spotlight'
+import { TextGenerateEffect } from '../components/ui/TextGenerateEffect'
 import Button from '../components/Button'
 import { fadeUpVariants } from '../utils/variants'
 
@@ -100,6 +102,7 @@ function HomePage() {
           className="absolute inset-0 h-full w-full object-cover opacity-80 transition-transform duration-[4s] group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/50 to-transparent" />
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
         
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-20 mix-blend-screen pointer-events-none">
@@ -111,9 +114,9 @@ function HomePage() {
             <Plane className="h-3.5 w-3.5" />
             Premium Travel Planning
           </div>
-          <h1 className="mt-4 max-w-2xl text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
-            Plan your next journey in minutes.
-          </h1>
+          <div className="mt-4 max-w-2xl text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+            <TextGenerateEffect words="Plan your next journey in minutes." />
+          </div>
           <p className="mt-4 max-w-xl text-base text-blue-100">
             Organize multi-city itineraries, track budgets, and share travel plans with your crew — all in one elegant platform.
           </p>

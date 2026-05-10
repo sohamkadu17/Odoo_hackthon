@@ -27,38 +27,15 @@ const statCards = [
 
 type BadgeTone = 'amber' | 'blue' | 'cyan' | 'green'
 
-const upcomingTrips = [
-  {
-    name: 'Lisbon Loop',
-    dates: 'Jun 12 – Jun 18',
-    status: 'Draft',
-    tone: 'amber' as BadgeTone,
-    cities: 'Lisbon, Sintra, Cascais',
-    travelers: '4',
-    daysLeft: 33,
-    image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop',
-  },
-  {
-    name: 'Nordic Studio',
-    dates: 'Jul 02 – Jul 11',
-    status: 'Booked',
-    tone: 'blue' as BadgeTone,
-    cities: 'Copenhagen, Oslo',
-    travelers: '2',
-    daysLeft: 53,
-    image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop',
-  },
-  {
-    name: 'Desert Weekender',
-    dates: 'Aug 23 – Aug 25',
-    status: 'Shared',
-    tone: 'cyan' as BadgeTone,
-    cities: 'Phoenix, Sedona',
-    travelers: '5',
-    daysLeft: 105,
-    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop',
-  },
-]
+type Trip = {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  isPublic: boolean
+  coverPhoto?: string
+  TripStops?: any[]
+}
 
 const focusTasks = [
   { text: 'Confirm boutique stay in Alfama', done: false },
@@ -82,10 +59,44 @@ const weather = [
 
 function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true)
+  const [trips, setTrips] = useState<Trip[]>([])
+  const [stats, setStats] = useState(statCards)
 
   useEffect(() => {
-    const t = setTimeout(() => setIsLoading(false), 400)
-    return () => clearTimeout(t)
+    const fetchTrips = async () => {
+      try {
+        const token = localStorage.getItem('traveloop_token')
+        const response = await fetch('http://localhost:5000/api/trips', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        if (response.ok) {
+          const data = await response.json()
+          const fetchedTrips = data.data || []
+          setTrips(fetchedTrips)
+          
+          let totalDays = 0
+          fetchedTrips.forEach((t: Trip) => {
+            const start = new Date(t.startDate)
+            const end = new Date(t.endDate)
+            totalDays += Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24))
+          })
+
+          setStats([
+            { label: 'Active Trips', value: fetchedTrips.length.toString(), icon: Map, color: 'text-blue-600', bg: 'bg-blue-50', trend: 'Total trips' },
+            { label: 'Days Planned', value: totalDays.toString(), icon: Calendar, color: 'text-indigo-600', bg: 'bg-indigo-50', trend: `Across ${fetchedTrips.length} trips` },
+            { label: 'Budget Used', value: 'N/A', icon: TrendingUp, color: 'text-cyan-600', bg: 'bg-cyan-50', trend: 'Coming soon' },
+            { label: 'Crew Members', value: '1', icon: Users, color: 'text-teal-600', bg: 'bg-teal-50', trend: 'Just you' },
+          ])
+        }
+      } catch (err) {
+        console.error('Failed to fetch trips:', err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTrips()
   }, [])
 
   return (

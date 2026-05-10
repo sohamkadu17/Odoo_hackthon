@@ -1,6 +1,6 @@
-import sequelize from './config/database.js';
-import { User, City, Activity } from './models/index.js';
-import { ActivityType } from './models/Activity.js';
+import sequelize from '../config/database.js';
+import { User, City, Activity } from '../models/index.js';
+import { ActivityType } from '../models/Activity.js';
 
 const seedDatabase = async () => {
   try {
