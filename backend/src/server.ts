@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { QueryTypes } from 'sequelize';
 import sequelize from './config/database';
 import authRoutes from './routes/authRoutes';
 import tripRoutes from './routes/tripRoutes';
