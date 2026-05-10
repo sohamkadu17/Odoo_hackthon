@@ -65,9 +65,11 @@ function ProfileSettingsPage() {
               <WireCard title="Profile Photo">
                 <div className="flex items-center gap-5">
                   <div className="relative">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
-                      A
-                    </div>
+                    <img 
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop" 
+                      alt="Alex Jordan" 
+                      className="h-20 w-20 rounded-2xl object-cover shadow-md border border-gray-200" 
+                    />
                     <button className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 border-2 border-white text-white hover:bg-blue-700 transition">
                       <Camera className="h-3.5 w-3.5" />
                     </button>

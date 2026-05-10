@@ -25,19 +25,19 @@ const timeline = [
     city: 'Lisbon',
     events: [
       { time: '09:00', title: 'Arrive at Lisbon Airport', type: 'Transport', cost: '$0' },
-      { time: '11:30', title: 'Check-in: Solar do Castelo Boutique', type: 'Lodging', cost: '$180' },
-      { time: '14:00', title: 'Alfama neighborhood walk', type: 'Activity', cost: '$0' },
-      { time: '19:00', title: 'Dinner at Zé da Mouraria', type: 'Dining', cost: '$45' },
+      { time: '11:30', title: 'Check-in: Solar do Castelo Boutique', type: 'Lodging', cost: '$180', image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=250&auto=format&fit=crop' },
+      { time: '14:00', title: 'Alfama neighborhood walk', type: 'Activity', cost: '$0', image: 'https://images.unsplash.com/photo-1582236522501-c8524317f254?q=80&w=250&auto=format&fit=crop' },
+      { time: '19:00', title: 'Dinner at Zé da Mouraria', type: 'Dining', cost: '$45', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=250&auto=format&fit=crop' },
     ],
   },
   {
     day: 'Day 2 — Jun 13',
     city: 'Lisbon',
     events: [
-      { time: '09:30', title: 'Belém Tower & Jerónimos Monastery', type: 'Activity', cost: '$18' },
-      { time: '13:00', title: 'LX Factory market lunch', type: 'Dining', cost: '$30' },
-      { time: '16:00', title: 'Azulejo tile workshop', type: 'Activity', cost: '$65' },
-      { time: '20:00', title: 'Sunset sail on the Tagus', type: 'Activity', cost: '$45' },
+      { time: '09:30', title: 'Belém Tower & Jerónimos Monastery', type: 'Activity', cost: '$18', image: 'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?q=80&w=250&auto=format&fit=crop' },
+      { time: '13:00', title: 'LX Factory market lunch', type: 'Dining', cost: '$30', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=250&auto=format&fit=crop' },
+      { time: '16:00', title: 'Azulejo tile workshop', type: 'Activity', cost: '$65', image: 'https://images.unsplash.com/photo-1542475017-ebdbbdf0e583?q=80&w=250&auto=format&fit=crop' },
+      { time: '20:00', title: 'Sunset sail on the Tagus', type: 'Activity', cost: '$45', image: 'https://images.unsplash.com/photo-1500839216016-01582e3089d3?q=80&w=250&auto=format&fit=crop' },
     ],
   },
   {
@@ -45,9 +45,9 @@ const timeline = [
     city: 'Sintra',
     events: [
       { time: '08:00', title: 'Train to Sintra (CP Rail)', type: 'Transport', cost: '$8' },
-      { time: '10:00', title: 'Pena Palace visit', type: 'Activity', cost: '$22' },
-      { time: '14:30', title: 'Quinta da Regaleira gardens', type: 'Activity', cost: '$18' },
-      { time: '19:00', title: 'Dinner at Tascantiga', type: 'Dining', cost: '$55' },
+      { time: '10:00', title: 'Pena Palace visit', type: 'Activity', cost: '$22', image: 'https://images.unsplash.com/photo-1544414603-9bb6da0d4b85?q=80&w=250&auto=format&fit=crop' },
+      { time: '14:30', title: 'Quinta da Regaleira gardens', type: 'Activity', cost: '$18', image: 'https://images.unsplash.com/photo-1565620731358-e8c038392eb1?q=80&w=250&auto=format&fit=crop' },
+      { time: '19:00', title: 'Dinner at Tascantiga', type: 'Dining', cost: '$55', image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=250&auto=format&fit=crop' },
     ],
   },
 ]
@@ -164,12 +164,19 @@ function ItineraryViewPage() {
                       )}
                     </div>
                     {/* Content */}
-                    <div className="flex flex-1 items-center justify-between gap-2 min-w-0">
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">{event.title}</p>
-                        <span className={`inline-block mt-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium ${eventTypeColors[event.type] || 'bg-gray-100 text-gray-600'}`}>
-                          {event.type}
-                        </span>
+                    <div className="flex flex-1 items-center justify-between gap-4 min-w-0">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        {event.image && (
+                          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg shadow-sm border border-gray-100 hidden sm:block">
+                            <img src={event.image} alt={event.title} className="h-full w-full object-cover" />
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">{event.title}</p>
+                          <span className={`inline-block mt-0.5 rounded-md px-1.5 py-0.5 text-xs font-medium ${eventTypeColors[event.type] || 'bg-gray-100 text-gray-600'}`}>
+                            {event.type}
+                          </span>
+                        </div>
                       </div>
                       <div className="shrink-0">
                         <span className="text-sm font-semibold text-gray-700">{event.cost}</span>
