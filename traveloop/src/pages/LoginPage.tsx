@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 import Button from '../components/Button'
 
 // A beautiful portrait-oriented travel image (Paris)
-const BG_URL = "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800&auto=format&fit=crop"
+const BG_URL = "https://picsum.photos/seed/14998/800/600"
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
 
 type AuthResponse = {

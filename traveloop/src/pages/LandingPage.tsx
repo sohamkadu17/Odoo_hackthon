@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Plane, MapPin, Users, Wallet, ChevronRight, Compass } from 'lucide-react'
 
 // Beautiful Unsplash travel background
-const BG_URL = "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop"
+const BG_URL = "https://picsum.photos/seed/14765/800/600"
 
 const features = [
   {

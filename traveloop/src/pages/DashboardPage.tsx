@@ -38,7 +38,7 @@ const upcomingTrips = [
     cities: 'Lisbon, Sintra, Cascais',
     travelers: '4',
     daysLeft: 33,
-    image: 'https://images.unsplash.com/photo-1548765278-6515cb539ddc?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/15487/800/600',
   },
   {
     name: 'Nordic Studio',
@@ -48,7 +48,7 @@ const upcomingTrips = [
     cities: 'Copenhagen, Oslo',
     travelers: '2',
     daysLeft: 53,
-    image: 'https://images.unsplash.com/photo-1513622470522-26cb3cd41d3b?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/15136/800/600',
   },
   {
     name: 'Desert Weekender',
@@ -58,7 +58,7 @@ const upcomingTrips = [
     cities: 'Phoenix, Sedona',
     travelers: '5',
     daysLeft: 105,
-    image: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/14698/800/600',
   },
 ]
 
@@ -128,7 +128,7 @@ function DashboardPage() {
             className="group relative mb-8 h-64 w-full overflow-hidden rounded-3xl shadow-md"
           >
              <img 
-               src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=2000&auto=format&fit=crop" 
+               src="https://picsum.photos/seed/15069/800/600" 
                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[4s] group-hover:scale-105" 
                alt="Tropical beach scene"
              />
