@@ -7,6 +7,30 @@ import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell'
 import WireCard from '../components/WireCard'
 
+type StoredUser = {
+  firstName?: string
+  lastName?: string
+  email?: string
+  profilePhoto?: string
+}
+
+const getStoredUser = (): StoredUser | null => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  const rawUser = localStorage.getItem('traveloop_user')
+  if (!rawUser) {
+    return null
+  }
+
+  try {
+    return JSON.parse(rawUser) as StoredUser
+  } catch {
+    return null
+  }
+}
+
 const sections = [
   { id: 'profile', label: 'Profile', icon: User },
   { id: 'notifications', label: 'Notifications', icon: Bell },
@@ -16,6 +40,28 @@ const sections = [
 
 function ProfileSettingsPage() {
   const [activeSection, setActiveSection] = useState('profile')
+  const currentUser = getStoredUser()
+  const fullName = currentUser ? `${currentUser.firstName ?? ''} ${currentUser.lastName ?? ''}`.trim() : ''
+  const displayName = fullName || 'Travel user'
+  const displayEmail = currentUser?.email || 'you@email.com'
+  const avatarLetter = (currentUser?.firstName?.[0] || currentUser?.email?.[0] || 'T').toUpperCase()
+  const [photoPreview, setPhotoPreview] = useState<string | null>(currentUser?.profilePhoto || null)
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const result = reader.result as string
+        setPhotoPreview(result)
+        // Update in localStorage for demo
+        const updatedUser = { ...currentUser, profilePhoto: result }
+        localStorage.setItem('traveloop_user', JSON.stringify(updatedUser))
+        toast.success('Photo uploaded successfully!')
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   return (
     <PageShell
@@ -46,9 +92,17 @@ function ProfileSettingsPage() {
             })}
           </div>
 
-          <Link to="/login"><Button variant="secondary" className="w-full mt-2" icon={<LogOut className="h-4 w-4 text-red-500" />}>
-            <span className="text-red-600">Sign out</span>
-          </Button></Link>
+          <Link
+            to="/login"
+            onClick={() => {
+              localStorage.removeItem('traveloop_token')
+              localStorage.removeItem('traveloop_user')
+            }}
+          >
+            <Button variant="secondary" className="w-full mt-2" icon={<LogOut className="h-4 w-4 text-red-500" />}>
+              <span className="text-red-600">Sign out</span>
+            </Button>
+          </Link>
         </aside>
 
         {/* Main content */}
@@ -64,17 +118,28 @@ function ProfileSettingsPage() {
               {/* Avatar section */}
               <WireCard title="Profile Photo">
                 <div className="flex items-center gap-5">
-                  <div className="relative">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
-                      A
-                    </div>
-                    <button className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 border-2 border-white text-white hover:bg-blue-700 transition">
-                      <Camera className="h-3.5 w-3.5" />
-                    </button>
+              <div className="relative">
+                {photoPreview ? (
+                  <img src={photoPreview} alt="Profile" className="h-20 w-20 rounded-2xl object-cover" />
+                ) : (
+                  <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-3xl font-bold text-white shadow-md">
+                    {avatarLetter}
                   </div>
+                )}
+                <label htmlFor="photo-upload" className="absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 border-2 border-white text-white hover:bg-blue-700 transition cursor-pointer">
+                  <Camera className="h-3.5 w-3.5" />
+                </label>
+                <input
+                  id="photo-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
+              </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">Alex Jordan</p>
-                    <p className="text-xs text-gray-500">alex@email.com</p>
+                    <p className="text-sm font-semibold text-gray-900">{displayName}</p>
+                    <p className="text-xs text-gray-500">{displayEmail}</p>
                     <Button variant="secondary" size="sm" className="mt-2">
                       Upload new photo
                     </Button>
@@ -89,7 +154,7 @@ function ProfileSettingsPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">First name</label>
                     <input
                       type="text"
-                      defaultValue="Alex"
+                      defaultValue={currentUser?.firstName || ''}
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>
@@ -97,7 +162,7 @@ function ProfileSettingsPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">Last name</label>
                     <input
                       type="text"
-                      defaultValue="Jordan"
+                      defaultValue={currentUser?.lastName || ''}
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>
@@ -108,7 +173,7 @@ function ProfileSettingsPage() {
                     </label>
                     <input
                       type="email"
-                      defaultValue="alex@email.com"
+                      defaultValue={currentUser?.email || ''}
                       className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                     />
                   </div>

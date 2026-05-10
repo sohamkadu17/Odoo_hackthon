@@ -43,6 +43,43 @@ const tableRows = [
   },
 ]
 
+// Simple chart components
+const PieChart = () => (
+  <svg viewBox="0 0 100 100" className="h-40 w-40">
+    <circle cx="50" cy="50" r="40" fill="#06b6d4" />
+    <path d="M 50 50 L 90 50 A 40 40 0 0 0 30 30 Z" fill="#0ea5e9" />
+    <path d="M 50 50 L 30 30 A 40 40 0 0 0 50 10 Z" fill="#10b981" />
+  </svg>
+)
+
+const LineChart = () => (
+  <svg viewBox="0 0 200 100" className="h-40 w-full">
+    <polyline
+      points="10,80 40,60 70,40 100,50 130,30 160,45 190,20"
+      fill="none"
+      stroke="#ef4444"
+      strokeWidth="2"
+    />
+    <circle cx="10" cy="80" r="2" fill="#ef4444" />
+    <circle cx="40" cy="60" r="2" fill="#ef4444" />
+    <circle cx="70" cy="40" r="2" fill="#ef4444" />
+    <circle cx="100" cy="50" r="2" fill="#ef4444" />
+    <circle cx="130" cy="30" r="2" fill="#ef4444" />
+    <circle cx="160" cy="45" r="2" fill="#ef4444" />
+    <circle cx="190" cy="20" r="2" fill="#ef4444" />
+  </svg>
+)
+
+const BarChart = () => (
+  <svg viewBox="0 0 200 100" className="h-40 w-full">
+    <rect x="20" y="60" width="20" height="30" fill="#f97316" />
+    <rect x="50" y="40" width="20" height="50" fill="#fb923c" />
+    <rect x="80" y="30" width="20" height="60" fill="#fbbf24" />
+    <rect x="110" y="45" width="20" height="45" fill="#fcd34d" />
+    <rect x="140" y="50" width="20" height="40" fill="#fde047" />
+  </svg>
+)
+
 function AdminDashboard() {
   return (
     <div className="space-y-8 page-animate">
@@ -68,6 +105,59 @@ function AdminDashboard() {
             </div>
           </div>
         ))}
+      </section>
+
+      {/* Charts Section */}
+      <section className="grid gap-6 lg:grid-cols-3">
+        {/* Pie Chart */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Trip Distribution</h3>
+          <div className="flex justify-center">
+            <PieChart />
+          </div>
+          <div className="mt-4 space-y-2 text-sm">
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-cyan-400" />
+                Active Trips
+              </span>
+              <span className="font-semibold text-slate-900">45%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-blue-400" />
+                Completed
+              </span>
+              <span className="font-semibold text-slate-900">35%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-2">
+                <div className="h-3 w-3 rounded-full bg-green-500" />
+                Planned
+              </span>
+              <span className="font-semibold text-slate-900">20%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Line Chart */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Revenue Trend</h3>
+          <LineChart />
+          <div className="mt-4 text-center">
+            <p className="text-xs text-slate-500">Last 7 days</p>
+            <p className="text-lg font-semibold text-slate-900">$2,450.80</p>
+          </div>
+        </div>
+
+        {/* Bar Chart */}
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Top Destinations</h3>
+          <BarChart />
+          <div className="mt-4 space-y-1 text-xs text-slate-600">
+            <p>Lisbon • Paris • Kyoto • Tokyo • Barcelona</p>
+          </div>
+        </div>
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
